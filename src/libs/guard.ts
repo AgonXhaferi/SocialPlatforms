@@ -23,11 +23,7 @@ export class Guard {
         return true;
       }
     }
-    if (value === '') {
-      return true;
-    }
-
-    return false;
+    return value === '';
   }
 
   /**
