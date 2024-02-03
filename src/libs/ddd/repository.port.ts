@@ -30,11 +30,17 @@ export type PaginatedQueryParams = {
   orderBy: OrderBy;
 };
 
-export interface RepositoryPort<Entity> {
+export interface RepositoryPort<Entity, ID> {
+  create(entity: Entity): Promise<ID>;
+
   insert(entity: Entity | Entity[]): Promise<void>;
+
   findOneById(id: string): Promise<Option<Entity>>;
+
   findAll(): Promise<Entity[]>;
+
   findAllPaginated(params: PaginatedQueryParams): Promise<Paginated<Entity>>;
+
   delete(entity: Entity): Promise<boolean>;
 
   transaction<T>(handler: () => Promise<T>): Promise<T>;

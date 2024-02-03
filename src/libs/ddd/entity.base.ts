@@ -6,7 +6,7 @@ import {
 import { Guard } from '../guard';
 import { convertPropsToObject } from '../utils';
 
-export type AggregateID = string;
+export type AggregateID = string; //TODO: We can make this as a global value object for all entities.
 
 export interface BaseEntityProps {
   id: AggregateID;
