@@ -24,7 +24,7 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     return newUser.id;
   }
 
-  insert(entity: UserEntity | UserEntity[]): Promise<void> {
+  createMany(entity: UserEntity[]): Promise<void> {
     throw new Error('Method not implemented.');
   }
 

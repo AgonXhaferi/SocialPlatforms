@@ -41,9 +41,6 @@ export class CreateUserHttpController {
     const result: Result<AggregateID, UserAlreadyExistsError> =
       await this.commandBus.execute(command);
 
-    // Deciding what to do with a Result (similar to Rust matching)
-    // if Ok we return a response with an id
-    // if Error decide what to do with it depending on its type
     return match(result, {
       Ok: (id: string) => new IdResponse(id),
       Err: (error: Error) => {

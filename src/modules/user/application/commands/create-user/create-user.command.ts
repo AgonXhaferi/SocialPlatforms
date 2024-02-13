@@ -5,6 +5,10 @@ export class CreateUserCommand extends Command {
   readonly country: string;
   readonly postalCode: string;
   readonly street: string;
+  readonly name: string;
+  readonly lastName: string;
+  readonly userName: string;
+  readonly age: number;
 
   constructor(props: CommandProps<CreateUserCommand>) {
     super(props);
@@ -12,5 +16,9 @@ export class CreateUserCommand extends Command {
     this.country = props.country;
     this.postalCode = props.postalCode;
     this.street = props.street;
+    this.age = props.age;
+    this.userName = props.userName;
+    this.name = props.name;
+    this.lastName = props.lastName;
   }
 }
