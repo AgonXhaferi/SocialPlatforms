@@ -8,6 +8,7 @@ import { RequestContextModule } from 'nestjs-request-context';
 import { CqrsModule } from '@nestjs/cqrs';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { LoggerModule } from 'nestjs-pino';
+import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -22,11 +23,13 @@ import { LoggerModule } from 'nestjs-pino';
         },
       },
     }),
+    AuthModule.forRoot(),
     ConfigModule.forRoot(),
     DatabaseModule,
     UserModule,
     RequestContextModule,
     CqrsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
