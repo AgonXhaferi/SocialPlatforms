@@ -1,6 +1,7 @@
 import { RequestContextService } from '@libs/application/context/AppRequestContext';
 import { ArgumentNotProvidedException } from '../exceptions';
 import { Guard } from '../guard';
+import * as crypto from 'crypto';
 
 export type CommandProps<T> = Omit<T, 'id' | 'metadata'> & Partial<Command>;
 
@@ -41,7 +42,7 @@ export class Command {
         'Command props should not be empty',
       );
     }
-    const ctx = RequestContextService.getContext();
+    const ctx = RequestContextService.getContext(); //Refactor this.
     this.id = props.id || crypto.randomUUID();
     this.metadata = {
       correlationId: props?.metadata?.correlationId || ctx.requestId,

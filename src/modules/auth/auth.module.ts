@@ -9,11 +9,16 @@ import { ConfigInjectionToken } from '@modules/auth/supertoken-config.interface'
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SupertokensService } from '@modules/auth/services/supertokens.service';
 import { AuthMiddleware } from '@modules/auth/middleware/auth.middleware';
+import { CqrsModule } from '@nestjs/cqrs';
+import { ApplicationConstants } from '@modules/shared/constants/application.constants';
+import { routesV1 } from '@config/app.routes';
+import { AuthHttpController } from '@modules/auth/interface/adapters/auth.controller';
 
 @Module({
+  imports: [CqrsModule, ConfigModule],
   providers: [],
   exports: [],
-  controllers: [],
+  controllers: [AuthHttpController],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
@@ -27,23 +32,31 @@ export class AuthModule implements NestModule {
           inject: [ConfigService],
           useFactory: (configService: ConfigService) => ({
             appInfo: {
-              appName: configService.getOrThrow<string>('APP_NAME'),
-              apiDomain: configService.getOrThrow<string>('API_DOMAIN'),
-              websiteDomain: configService.getOrThrow<string>('WEBSITE_DOMAIN'),
-              apiBasePath: '/supertoken',
-              websiteBasePath: '/supertoken',
+              appName: configService.getOrThrow<string>(
+                ApplicationConstants.APP_NAME,
+              ),
+              apiDomain: configService.getOrThrow<string>(
+                ApplicationConstants.API_DOMAIN,
+              ),
+              websiteDomain: configService.getOrThrow<string>(
+                ApplicationConstants.WEBSITE_DOMAIN,
+              ),
+              apiBasePath: `/supertokens`,
+              websiteBasePath: `/supertokens`,
             },
             connectionURI: configService.getOrThrow<string>(
-              'SUPERTOKENS_CORE_CONNECTION_URI',
+              ApplicationConstants.SUPERTOKENS_CORE_CONNECTION_URI,
             ),
-            apiKey: configService.getOrThrow<string>('SUPERTOKENS_API_KEY'),
+            apiKey: configService.getOrThrow<string>(
+              ApplicationConstants.SUPERTOKENS_API_KEY,
+            ),
           }),
           provide: ConfigInjectionToken,
         },
         SupertokensService,
       ],
       exports: [],
-      imports: [ConfigModule.forRoot()],
+      imports: [],
       module: AuthModule,
     };
   }

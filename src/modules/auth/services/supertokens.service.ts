@@ -8,10 +8,17 @@ import {
   AuthModuleConfig,
   ConfigInjectionToken,
 } from '@modules/auth/supertoken-config.interface';
+import { CommandBus } from '@nestjs/cqrs';
+import { CreateUserCommand } from '@modules/user/application/commands/create-user/create-user.command';
+import { AggregateID, CommandProps } from '@libs/ddd';
+import { Result } from 'oxide.ts';
 
 @Injectable()
 export class SupertokensService {
-  constructor(@Inject(ConfigInjectionToken) private config: AuthModuleConfig) {
+  constructor(
+    @Inject(ConfigInjectionToken) private config: AuthModuleConfig,
+    commandBus: CommandBus,
+  ) {
     supertokens.init({
       appInfo: config.appInfo,
       supertokens: {
@@ -21,6 +28,34 @@ export class SupertokensService {
       recipeList: [
         Session.init(),
         EmailPassword.init({
+          signUpFeature: {
+            formFields: [
+              {
+                id: 'email',
+              },
+              {
+                id: 'country',
+              },
+              {
+                id: 'name',
+              },
+              {
+                id: 'lastName',
+              },
+              {
+                id: 'postalCode',
+              },
+              {
+                id: 'street',
+              },
+              {
+                id: 'userName',
+              },
+              {
+                id: 'age',
+              },
+            ],
+          },
           override: {
             apis: (originalImplementation) => {
               return {
@@ -28,6 +63,70 @@ export class SupertokensService {
                 signUpPOST: async function (input) {
                   const response =
                     await originalImplementation.signUpPOST(input);
+
+                  if (response.status === 'OK') {
+                    const formFields = input.formFields;
+                    const { id, emails } = response.user;
+
+                    const country = formFields.find(
+                      (formField) => formField.id === 'country',
+                    ).value;
+                    const postalCode = formFields.find(
+                      (formField) => formField.id === 'postalCode',
+                    ).value;
+                    const street = formFields.find(
+                      (formField) => formField.id === 'street',
+                    ).value;
+                    const name = formFields.find(
+                      (formField) => formField.id === 'name',
+                    ).value;
+                    const lastName = formFields.find(
+                      (formField) => formField.id === 'lastName',
+                    ).value;
+                    const userName = formFields.find(
+                      (formField) => formField.id === 'userName',
+                    ).value;
+                    const age = +formFields.find(
+                      (formField) => formField.id === 'age',
+                    ).value;
+
+                    const primaryEmail = emails[0];
+
+                    // const createUserCommandsPros: CommandProps<CreateUserCommand> =
+                    //   {
+                    //     country,
+                    //     street,
+                    //     postalCode,
+                    //     email: primaryEmail,
+                    //     // id,
+                    //     age,
+                    //     lastName,
+                    //     userName,
+                    //     name,
+                    //   };
+
+                    const command = new CreateUserCommand({
+                      country,
+                      street,
+                      postalCode,
+                      email: primaryEmail,
+                      // id,
+                      age,
+                      lastName,
+                      userName,
+                      name,
+                    });
+
+                    const result: Result<AggregateID, Error> =
+                      await commandBus.execute(new CreateUserCommand(command));
+
+                    if (result.isErr()) {
+                      console.error(
+                        `Error occurred while registering user through SuperTokens`,
+                      );
+                      console.error(result.unwrapUnchecked());
+                    }
+                  }
 
                   return response;
                 },

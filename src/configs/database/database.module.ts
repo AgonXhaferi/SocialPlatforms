@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ApplicationConstants } from '@modules/shared/constants/application.constants';
 
 @Module({
   imports: [
@@ -8,7 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        url: configService.get<string>('DATABASE_URL'),
+        url: configService.get<string>(ApplicationConstants.DATABASE_URL),
         autoLoadEntities: true,
       }),
       inject: [ConfigService],

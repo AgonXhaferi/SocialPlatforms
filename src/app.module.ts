@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -6,15 +6,46 @@ import { DatabaseModule } from '@config/database/database.module';
 import { UserModule } from '@modules/user/user.module';
 import { RequestContextModule } from 'nestjs-request-context';
 import { CqrsModule } from '@nestjs/cqrs';
-import { EventEmitterModule } from '@nestjs/event-emitter';
+import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
 import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from '@modules/auth/auth.module';
+import { RequestContextService } from '@libs/application/context/AppRequestContext';
+import * as nanoid from 'nanoid';
+import { ContextInterceptor } from '@libs/application/context/ContextInterceptor';
+import { ExceptionInterceptor } from '@libs/application/interceptors/exception.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+
+const eventEmitter: Provider = {
+  provide: EventEmitter2,
+  useClass: EventEmitter2,
+};
+
+const interceptors = [
+  {
+    provide: APP_INTERCEPTOR,
+    useClass: ContextInterceptor,
+  },
+  {
+    provide: APP_INTERCEPTOR,
+    useClass: ExceptionInterceptor,
+  },
+];
 
 @Module({
   imports: [
+    RequestContextModule,
     EventEmitterModule.forRoot(),
     LoggerModule.forRoot({
       pinoHttp: {
+        customProps: () => ({
+          context: 'HTTP',
+        }),
+        genReqId: (req, res) => {
+          const existingID =
+            RequestContextService.getRequestId() ?? nanoid.nanoid(6);
+          res.setHeader('X-Request-Id', existingID);
+          return existingID;
+        },
         transport: {
           target: 'pino-pretty',
           options: {
@@ -27,11 +58,14 @@ import { AuthModule } from '@modules/auth/auth.module';
     ConfigModule.forRoot(),
     DatabaseModule,
     UserModule,
-    RequestContextModule,
     CqrsModule,
-    AuthModule,
+    EventEmitterModule.forRoot({
+      wildcard: false,
+      delimiter: '.',
+      ignoreErrors: false,
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, eventEmitter, ...interceptors],
 })
 export class AppModule {}
