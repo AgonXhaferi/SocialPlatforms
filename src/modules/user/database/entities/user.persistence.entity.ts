@@ -62,6 +62,7 @@ export class UserPersistenceEntity {
   timeUpdated: Date;
 
   constructor(
+    id: string,
     name: string,
     lastName: string,
     userName: string,
@@ -72,6 +73,7 @@ export class UserPersistenceEntity {
     age: number,
     userRoles: UserRoles,
   ) {
+    this.id = id;
     this.name = name;
     this.lastName = lastName;
     this.userName = userName;

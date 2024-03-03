@@ -42,7 +42,7 @@ export class Command {
         'Command props should not be empty',
       );
     }
-    const ctx = RequestContextService.getContext(); //Refactor this.
+    const ctx = RequestContextService.getContext();
     this.id = props.id || crypto.randomUUID();
     this.metadata = {
       correlationId: props?.metadata?.correlationId || ctx.requestId,

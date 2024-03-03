@@ -12,6 +12,7 @@ export class UserMapper implements Mapper<UserEntity, UserPersistenceEntity> {
     const copy = entity.getProps();
 
     return new UserPersistenceEntity(
+      copy.id,
       copy.fullName.firstName,
       copy.fullName.lastName,
       copy.userName,
