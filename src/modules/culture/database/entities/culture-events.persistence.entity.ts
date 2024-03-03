@@ -11,10 +11,14 @@ export class CultureEventsPersistenceEntity {
   })
   id: string;
 
-  @Column()
+  @Column({
+    name: 'name',
+  })
   name: string;
 
-  @Column()
+  @Column({
+    name: 'description',
+  })
   description: string;
 
   @Column(() => GpsLocation, {

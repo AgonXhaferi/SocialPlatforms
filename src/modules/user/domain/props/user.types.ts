@@ -11,8 +11,8 @@ export interface UserProps {
   age: number;
 }
 
-// Properties used for updating a user address
 export interface UpdateUserAddressProps {
+  email?: string;
   country?: string;
   postalCode?: string;
   street?: string;
