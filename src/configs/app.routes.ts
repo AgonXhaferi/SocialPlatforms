@@ -1,6 +1,6 @@
-const userRoot = 'users';
-const authRoot = 'supertoken';
-
+const userRoot = 'users' as const;
+const authRoot = 'supertoken' as const;
+const cultureRoot = 'culture' as const;
 const v1 = 'v1';
 
 export const routesV1 = {
@@ -10,5 +10,8 @@ export const routesV1 = {
   },
   auth: {
     root: authRoot,
+  },
+  culture: {
+    root: cultureRoot,
   },
 } as const;
