@@ -11,10 +11,12 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { IdResponse } from '@libs/api/id.response.dto';
 import { UserAlreadyExistsError } from '@modules/user/domain/errors/user-already-exists.error';
 import { ApiErrorResponse } from '@libs/api/api-error.response';
-import { CreateUserRequestDto } from '@modules/user/interface/adapters/request/create-user.request.dto';
 import { CreateUserCommand } from '@modules/user/application/commands/create-user/create-user.command';
 import { match, Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';
+import { CreateCultureRequest } from '@modules/culture/interface/adapters/request/create-culture.request';
+import { CreateCultureCommand } from '@modules/culture/application/commands/create-culture.command';
+import { CultureAlreadyExistsError } from '@modules/culture/domain/error/culture-already-exists.error';
 
 @Controller(routesV1.version)
 export class CreateCultureController {
@@ -35,16 +37,16 @@ export class CreateCultureController {
     type: ApiErrorResponse,
   })
   @Post(routesV1.culture.root)
-  async create(@Body() body: CreateUserRequestDto): Promise<IdResponse> {
-    const command = new CreateUserCommand(body);
+  async create(@Body() body: CreateCultureRequest): Promise<IdResponse> {
+    const command = new CreateCultureCommand(body);
 
-    const result: Result<AggregateID, UserAlreadyExistsError> =
+    const result: Result<AggregateID, CultureAlreadyExistsError> =
       await this.commandBus.execute(command);
 
     return match(result, {
       Ok: (id: string) => new IdResponse(id),
       Err: (error: Error) => {
-        if (error instanceof UserAlreadyExistsError)
+        if (error instanceof CultureAlreadyExistsError)
           throw new ConflictHttpException(error.message);
         throw error;
       },
