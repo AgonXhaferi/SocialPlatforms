@@ -44,7 +44,6 @@ export class InitUser1707168679757 implements MigrationInterface {
             name: 'id',
             type: 'uuid',
             isPrimary: true,
-            default: 'gen_random_uuid()',
           },
           {
             name: 'name',

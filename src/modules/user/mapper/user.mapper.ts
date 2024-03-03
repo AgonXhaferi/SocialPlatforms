@@ -30,6 +30,7 @@ export class UserMapper implements Mapper<UserEntity, UserPersistenceEntity> {
       createdAt: record.timeCreated,
       updatedAt: record.timeUpdated,
       props: {
+        id: record.id,
         role: record.userRole,
         address: new Address({
           country: record.country,

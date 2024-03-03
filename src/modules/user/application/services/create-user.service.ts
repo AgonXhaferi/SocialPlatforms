@@ -22,6 +22,7 @@ export class CreateUserService {
     command: CreateUserCommand,
   ): Promise<Result<AggregateID, ExceptionBase>> {
     const user = UserEntity.create({
+      id: command.id,
       age: command.age,
       address: new Address({
         country: command.country,
