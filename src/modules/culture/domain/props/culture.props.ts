@@ -1,1 +1,5 @@
-export interface CultureProps {}
+export interface CultureProps {
+  name: string;
+  location: string;
+  language: string;
+}

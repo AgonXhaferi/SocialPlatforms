@@ -18,10 +18,10 @@ export class FullName extends ValueObject<FullNameProps> {
 
   protected validate(props: FullNameProps): void {
     if (!Guard.lengthIsBetween(props.firstName, 1, 50)) {
-      throw new ArgumentOutOfRangeException('first name is out of range');
+      throw new ArgumentOutOfRangeException('First name is out of range.');
     }
     if (!Guard.lengthIsBetween(props.lastName, 1, 50)) {
-      throw new ArgumentOutOfRangeException('last name is out of range');
+      throw new ArgumentOutOfRangeException('Last name is out of range.');
     }
   }
 }

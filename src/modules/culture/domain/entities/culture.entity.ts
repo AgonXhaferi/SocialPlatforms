@@ -18,5 +18,6 @@ export class CultureEntity extends AggregateRoot<CultureProps> {
     return new CultureEntity({ id, props }); //TODO, check this out it may be overriden~ by the id value of the user props.
   }
 
+  //Protects culture invariant
   public validate(): void {}
 }
