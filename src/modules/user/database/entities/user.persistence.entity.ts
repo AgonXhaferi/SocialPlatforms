@@ -1,12 +1,17 @@
-import { Column, CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
-import { PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { UserRoles } from '@modules/user/domain/props/user.types';
 
 @Entity('user', {
   schema: 'user',
 })
 export class UserPersistenceEntity {
-  @PrimaryGeneratedColumn('uuid', {
+  @PrimaryColumn('uuid', {
     name: 'id',
   })
   id: string;

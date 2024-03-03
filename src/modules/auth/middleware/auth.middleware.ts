@@ -1,7 +1,5 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { middleware } from 'supertokens-node/framework/express';
-import { RequestContext } from 'nestjs-request-context';
-import { AppRequestContext } from '@libs/application/context/AppRequestContext';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {

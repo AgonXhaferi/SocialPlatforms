@@ -1,6 +1,7 @@
 import { Command, CommandProps } from '@libs/ddd';
 
 export class CreateUserCommand extends Command {
+  readonly id: string;
   readonly email: string;
   readonly country: string;
   readonly postalCode: string;
@@ -20,5 +21,6 @@ export class CreateUserCommand extends Command {
     this.userName = props.userName;
     this.name = props.name;
     this.lastName = props.lastName;
+    this.id = props.id;
   }
 }

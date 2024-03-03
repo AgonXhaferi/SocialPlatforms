@@ -10,7 +10,7 @@ import {
 } from '@modules/auth/supertoken-config.interface';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from '@modules/user/application/commands/create-user/create-user.command';
-import { AggregateID, CommandProps } from '@libs/ddd';
+import { AggregateID } from '@libs/ddd';
 import { Result } from 'oxide.ts';
 
 @Injectable()
@@ -92,25 +92,12 @@ export class SupertokensService {
 
                     const primaryEmail = emails[0];
 
-                    // const createUserCommandsPros: CommandProps<CreateUserCommand> =
-                    //   {
-                    //     country,
-                    //     street,
-                    //     postalCode,
-                    //     email: primaryEmail,
-                    //     // id,
-                    //     age,
-                    //     lastName,
-                    //     userName,
-                    //     name,
-                    //   };
-
                     const command = new CreateUserCommand({
                       country,
                       street,
                       postalCode,
                       email: primaryEmail,
-                      // id,
+                      id,
                       age,
                       lastName,
                       userName,
