@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({
   name: 'culture_articles',
@@ -19,4 +25,19 @@ export class CultureArticlesPersistenceEntity {
     name: 'content',
   })
   content: string;
+
+  @CreateDateColumn({
+    name: 'time_created',
+  })
+  timeCreated: Date;
+
+  @UpdateDateColumn({
+    name: 'time_updated',
+  })
+  timeUpdated: Date;
+
+  constructor(title: string, content: string) {
+    this.title = title;
+    this.content = content;
+  }
 }

@@ -6,6 +6,9 @@ export interface CultureEventDurationProps {
 }
 
 export class CultureEventDurationValueObject extends ValueObject<CultureEventDurationProps> {
+  protected validate(props: CultureEventDurationProps): void {
+    throw new Error('Method not implemented.');
+  }
   get startDate() {
     return this.props.startDate;
   }

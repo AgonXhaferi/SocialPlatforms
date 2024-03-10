@@ -14,6 +14,7 @@ import * as nanoid from 'nanoid';
 import { ContextInterceptor } from '@libs/application/context/ContextInterceptor';
 import { ExceptionInterceptor } from '@libs/application/interceptors/exception.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CultureModule } from '@modules/culture/culture.module';
 
 const eventEmitter: Provider = {
   provide: EventEmitter2,
@@ -40,7 +41,7 @@ const interceptors = [
         customProps: () => ({
           context: 'HTTP',
         }),
-        genReqId: (req, res) => {
+        genReqId: (_req, res) => {
           const existingID =
             RequestContextService.getRequestId() ?? nanoid.nanoid(6);
           res.setHeader('X-Request-Id', existingID);
@@ -58,6 +59,7 @@ const interceptors = [
     ConfigModule.forRoot(),
     DatabaseModule,
     UserModule,
+    CultureModule,
     CqrsModule,
     EventEmitterModule.forRoot({
       wildcard: false,

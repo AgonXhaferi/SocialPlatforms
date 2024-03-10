@@ -28,7 +28,7 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     throw new Error('Method not implemented.');
   }
 
-  findOneById(id: string): Promise<Option<UserEntity>> {
+  findOneById(id: string): Promise<UserEntity> {
     throw new Error('Method not implemented.');
   }
 

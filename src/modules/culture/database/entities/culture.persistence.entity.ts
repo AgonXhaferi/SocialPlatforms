@@ -1,5 +1,10 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({
   name: 'culture',
@@ -16,4 +21,23 @@ export class CulturePersistenceEntity {
 
   @Column()
   language: string;
+
+  @Column()
+  location: string;
+
+  @CreateDateColumn({
+    name: 'time_created',
+  })
+  timeCreated: Date;
+
+  @UpdateDateColumn({
+    name: 'time_updated',
+  })
+  timeUpdated: Date;
+
+  constructor(name: string, language: string, location: string) {
+    this.name = name;
+    this.language = language;
+    this.location = location;
+  }
 }

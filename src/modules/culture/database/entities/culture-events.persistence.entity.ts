@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { GpsLocation } from '@modules/shared/entities/gps-location.persistence.entity';
 
 @Entity({
@@ -35,6 +40,11 @@ export class CultureEventsPersistenceEntity {
     name: 'end_date',
   })
   endDate: Date;
+
+  @UpdateDateColumn({
+    name: 'time_updated',
+  })
+  timeUpdated: Date;
 
   constructor(
     name: string,

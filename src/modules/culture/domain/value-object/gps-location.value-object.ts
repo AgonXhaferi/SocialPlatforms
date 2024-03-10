@@ -6,6 +6,9 @@ export interface GpsLocationProps {
 }
 
 export class GpsLocationValueObject extends ValueObject<GpsLocationProps> {
+  protected validate(props: GpsLocationProps): void {
+    throw new Error('Method not implemented.');
+  }
   get longitude() {
     return this.props.longitude;
   }

@@ -28,6 +28,16 @@ export class InitCulture1709470247731 implements MigrationInterface {
             name: 'language',
             type: 'varchar',
           },
+          {
+            name: 'time_created',
+            type: 'timestamp with time zone',
+            default: 'now()',
+          },
+          {
+            name: 'time_updated',
+            type: 'timestamp with time zone',
+            default: 'now()',
+          },
         ],
       }),
     );
@@ -50,6 +60,16 @@ export class InitCulture1709470247731 implements MigrationInterface {
           {
             name: 'content',
             type: 'varchar',
+          },
+          {
+            name: 'time_created',
+            type: 'timestamp with time zone',
+            default: 'now()',
+          },
+          {
+            name: 'time_updated',
+            type: 'timestamp with time zone',
+            default: 'now()',
           },
         ],
       }),
@@ -91,6 +111,11 @@ export class InitCulture1709470247731 implements MigrationInterface {
             name: 'end_date',
             type: 'timestamp with time zone',
             isNullable: false,
+          },
+          {
+            name: 'time_updated',
+            type: 'timestamp with time zone',
+            default: 'now()',
           },
         ],
       }),

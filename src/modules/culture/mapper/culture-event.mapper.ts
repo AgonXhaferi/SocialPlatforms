@@ -1,0 +1,47 @@
+import { Injectable } from '@nestjs/common';
+import { Mapper } from '@libs/ddd';
+import { CultureEventsEntity } from '@modules/culture/domain/entities/culture-events.entity';
+import { CultureEventsPersistenceEntity } from '@modules/culture/database/entities/culture-events.persistence.entity';
+import { GpsLocationValueObject } from '@modules/culture/domain/value-object/gps-location.value-object';
+import { CultureEventDurationValueObject } from '@modules/culture/domain/value-object/culture-event-duration.value-object';
+
+@Injectable()
+export class CultureEventMapper
+  implements Mapper<CultureEventsEntity, CultureEventsPersistenceEntity>
+{
+  toPersistence(entity: CultureEventsEntity): CultureEventsPersistenceEntity {
+    const copy = entity.getProps();
+
+    return new CultureEventsPersistenceEntity(
+      copy.name,
+      copy.description,
+      copy.location,
+      copy.duration.startDate,
+      copy.duration.endDate,
+    );
+  }
+
+  toDomain(record: CultureEventsPersistenceEntity): CultureEventsEntity {
+    return new CultureEventsEntity({
+      id: record.id,
+      createdAt: record.startDate,
+      updatedAt: record.timeUpdated,
+      props: {
+        name: record.name,
+        description: record.description,
+        duration: new CultureEventDurationValueObject({
+          startDate: record.startDate,
+          endDate: record.endDate,
+        }),
+        location: new GpsLocationValueObject({
+          longitude: record.location.longitude,
+          latitude: record.location.latitude,
+        }),
+      },
+    });
+  }
+
+  toResponse(entity: CultureEventsEntity) {
+    throw new Error('Method not implemented.');
+  }
+}

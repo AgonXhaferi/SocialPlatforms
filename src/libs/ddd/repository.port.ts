@@ -35,7 +35,7 @@ export interface RepositoryPort<Entity, ID> {
 
   createMany(entity: Entity[]): Promise<void>;
 
-  findOneById(id: string): Promise<Option<Entity>>;
+  findOneById(id: string): Promise<Entity>;
 
   findAll(): Promise<Entity[]>;
 

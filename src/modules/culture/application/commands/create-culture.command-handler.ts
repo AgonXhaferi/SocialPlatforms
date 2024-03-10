@@ -4,12 +4,15 @@ import { Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';
 import { ExceptionBase } from '@libs/exceptions';
 import { CreateCultureCommand } from '@modules/culture/application/commands/create-culture.command';
+import { CreateCultureService } from '@modules/culture/application/services/culture/create-culture.service';
 
 @CommandHandler(CreateCultureCommand)
 export class CreateCultureCommandHandler implements ICommandHandler {
-  constructor() {}
+  constructor(private readonly createCultureService: CreateCultureService) {}
 
   async execute(
-    command: CreateUserCommand,
-  ): Promise<Result<AggregateID, ExceptionBase>> {}
+    command: CreateCultureCommand,
+  ): Promise<Result<AggregateID, ExceptionBase>> {
+    return this.createCultureService.createCulture(command);
+  }
 }
