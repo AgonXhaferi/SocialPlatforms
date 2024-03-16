@@ -19,13 +19,13 @@ export class CultureMapper
 
   toDomain(record: CulturePersistenceEntity): CultureEntity {
     return new CultureEntity({
-      id: record.id,
+      id: crypto.randomUUID(), //TODO: Agon-Research I don't know if I should duplicate name here, cause in this case its a prop and an ID.
       createdAt: record.timeCreated,
       updatedAt: record.timeUpdated,
       props: {
-        name: record.name,
         language: record.language,
         location: record.location,
+        name: record.name,
       },
     });
   }

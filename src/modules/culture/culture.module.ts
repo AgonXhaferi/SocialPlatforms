@@ -10,6 +10,7 @@ import { CULTURE_REPOSITORY } from '@modules/culture/culture.di-tokens';
 import { CultureRepositoryAdapter } from '@modules/culture/infrastructure/adapter/culture.repository.adapter';
 import { CreateCultureService } from '@modules/culture/application/services/culture/create-culture.service';
 import { CultureMapper } from '@modules/culture/mapper/culture.mapper';
+import { CultureSubscriptionsPersistenceEntity } from '@modules/culture/database/entities/culture-subscriptions.persistence.entity';
 
 const httpControllers = [CreateCultureController];
 
@@ -32,6 +33,7 @@ const repositories: Provider[] = [
       CulturePersistenceEntity,
       CultureArticlesPersistenceEntity,
       CultureEventsPersistenceEntity,
+      CultureSubscriptionsPersistenceEntity,
     ]),
   ],
   controllers: [...httpControllers],

@@ -21,7 +21,7 @@ export class CultureRepositoryAdapter implements CultureRepositoryPort {
 
     try {
       const newCulture = await this.repository.save(culturePersistenceEntity);
-      return newCulture.id;
+      return newCulture.name;
     } catch (error) {
       throw error;
     }
@@ -41,7 +41,7 @@ export class CultureRepositoryAdapter implements CultureRepositoryPort {
 
   async findOneById(id: string): Promise<CultureEntity> {
     const culture = await this.repository.findOneBy({
-      id,
+      name: id,
     });
 
     if (!culture) {

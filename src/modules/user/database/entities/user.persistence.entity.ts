@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserRoles } from '@modules/user/domain/props/user.types';
+import { CultureSubscriptionsPersistenceEntity } from '@modules/culture/database/entities/culture-subscriptions.persistence.entity';
 
 @Entity('user', {
   schema: 'user',
@@ -60,6 +62,12 @@ export class UserPersistenceEntity {
     name: 'time_updated',
   })
   timeUpdated: Date;
+
+  @OneToMany(
+    () => CultureSubscriptionsPersistenceEntity,
+    (cultureSubscription) => cultureSubscription.userPersistenceEntity,
+  )
+  cultureSubscriptionsPersistenceEntities: CultureSubscriptionsPersistenceEntity[];
 
   constructor(
     id: string,

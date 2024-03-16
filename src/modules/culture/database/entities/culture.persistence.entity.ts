@@ -2,21 +2,19 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
+  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CultureSubscriptionsPersistenceEntity } from '@modules/culture/database/entities/culture-subscriptions.persistence.entity';
 
 @Entity({
   name: 'culture',
   schema: 'culture',
 })
 export class CulturePersistenceEntity {
-  @PrimaryGeneratedColumn('uuid', {
-    name: 'id',
-  })
-  id: string;
-
-  @Column()
+  @PrimaryColumn()
   name: string;
 
   @Column()
@@ -34,6 +32,13 @@ export class CulturePersistenceEntity {
     name: 'time_updated',
   })
   timeUpdated: Date;
+
+  @OneToMany(
+    () => CultureSubscriptionsPersistenceEntity,
+    (cultureSubscriptionEntity) =>
+      cultureSubscriptionEntity.culturePersistenceEntity,
+  )
+  cultureSubscriptionsPersistenceEntities: CultureSubscriptionsPersistenceEntity[];
 
   constructor(name: string, language: string, location: string) {
     this.name = name;
