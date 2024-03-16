@@ -7,6 +7,7 @@ export interface UserProps {
   email: string;
   address: Address;
   fullName: FullName;
+  culture: string;
   userName: string;
   age: number;
 }

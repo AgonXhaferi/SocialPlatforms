@@ -4,6 +4,7 @@ export class CreateUserCommand extends Command {
   readonly id: string;
   readonly email: string;
   readonly country: string;
+  readonly culture: string;
   readonly postalCode: string;
   readonly street: string;
   readonly name: string;
@@ -15,6 +16,7 @@ export class CreateUserCommand extends Command {
     super(props);
     this.email = props.email;
     this.country = props.country;
+    this.culture = props.culture;
     this.postalCode = props.postalCode;
     this.street = props.street;
     this.age = props.age;

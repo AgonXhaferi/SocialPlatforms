@@ -53,6 +53,11 @@ export class UserPersistenceEntity {
   })
   postalCode: string;
 
+  @Column({
+    name: 'culture',
+  })
+  culture: string;
+
   @CreateDateColumn({
     name: 'time_created',
   })
@@ -80,6 +85,7 @@ export class UserPersistenceEntity {
     street: string,
     age: number,
     userRoles: UserRoles,
+    culture: string,
   ) {
     this.id = id;
     this.name = name;
@@ -91,5 +97,6 @@ export class UserPersistenceEntity {
     this.street = street;
     this.age = age;
     this.userRole = userRoles;
+    this.culture = culture;
   }
 }

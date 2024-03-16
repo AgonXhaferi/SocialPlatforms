@@ -36,6 +36,7 @@ export class CreateUserService {
         firstName: command.name,
       }),
       role: UserRoles.moderator,
+      culture: command.culture,
     });
 
     try {

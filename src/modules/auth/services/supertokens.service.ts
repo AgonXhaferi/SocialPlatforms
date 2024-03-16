@@ -54,6 +54,9 @@ export class SupertokensService {
               {
                 id: 'age',
               },
+              {
+                id: 'culture',
+              },
             ],
           },
           override: {
@@ -89,10 +92,14 @@ export class SupertokensService {
                     const age = +formFields.find(
                       (formField) => formField.id === 'age',
                     ).value;
+                    const culture = formFields.find(
+                      (formField) => formField.id === 'culture',
+                    ).value;
 
                     const primaryEmail = emails[0];
 
                     const command = new CreateUserCommand({
+                      culture,
                       country,
                       street,
                       postalCode,
