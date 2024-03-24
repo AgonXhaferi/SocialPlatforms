@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { UserPersistenceEntity } from '@modules/user/database/entities/user.persistence.entity';
 import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
 
@@ -16,6 +16,11 @@ export class CultureSubscriptionsPersistenceEntity {
     name: 'culture_id',
   })
   cultureId: string;
+
+  @Column('boolean', {
+    name: 'is_primary',
+  })
+  isPrimary: boolean;
 
   @ManyToOne(
     () => UserPersistenceEntity,

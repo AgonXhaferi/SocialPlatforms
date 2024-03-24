@@ -61,6 +61,11 @@ export class MainInit1707168679757 implements MigrationInterface {
             foreignKeyConstraintName: 'subscription_user_fk',
           },
           {
+            name: 'is_primary',
+            type: 'boolean',
+            default: false,
+          },
+          {
             name: 'time_created',
             type: 'timestamp with time zone',
             default: 'now()',
@@ -148,11 +153,6 @@ export class MainInit1707168679757 implements MigrationInterface {
             foreignKeyConstraintName: 'user_role_fk',
           },
           {
-            name: 'primary_culture',
-            type: 'varchar',
-            foreignKeyConstraintName: 'culture_fk',
-          },
-          {
             name: 'time_created',
             type: 'timestamp with time zone',
             default: 'now()',
@@ -173,16 +173,6 @@ export class MainInit1707168679757 implements MigrationInterface {
         columnNames: ['user_role'],
         referencedColumnNames: ['id'],
         referencedTableName: 'user.user_roles',
-      }),
-    );
-
-    await queryRunner.createForeignKey(
-      'user.user',
-      new TableForeignKey({
-        name: 'culture_fk',
-        columnNames: ['primary_culture'],
-        referencedColumnNames: ['name'],
-        referencedTableName: 'culture.culture',
       }),
     );
 
