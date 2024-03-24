@@ -18,8 +18,17 @@ export class CultureEventRepositoryAdapter
     private readonly cultureEventsMapper: CultureEventMapper,
   ) {}
 
-  create(entity: CultureEventsEntity): Promise<string> {
-    throw new Error('Method not implemented.');
+  async create(entity: CultureEventsEntity): Promise<string> {
+    const persistenceEntity = this.cultureEventsMapper.toPersistence(entity);
+
+    try {
+      const newCultureEventsEntity =
+        await this.repository.save(persistenceEntity);
+
+      return newCultureEventsEntity.id;
+    } catch (error) {
+      throw error; //TODO, obviously do better error handling, at least define some logging for this.
+    }
   }
 
   createMany(entity: CultureEventsEntity[]): Promise<void> {

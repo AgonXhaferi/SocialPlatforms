@@ -7,8 +7,8 @@ const createCultureEventRequestSchema = z.object({
   description: z.string().min(1),
   longitude: z.number(),
   latitude: z.number(),
-  startDate: z.date(),
-  endDate: z.date(),
+  startDate: z.dateString().cast(),
+  endDate: z.dateString().cast(),
 });
 
 export class CreateCultureEventRequest extends createZodDto(
