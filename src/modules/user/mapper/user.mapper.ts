@@ -22,7 +22,6 @@ export class UserMapper implements Mapper<UserEntity, UserPersistenceEntity> {
       copy.address.street,
       copy.age,
       UserRoles.moderator,
-      copy.culture,
     );
   }
 
@@ -46,7 +45,6 @@ export class UserMapper implements Mapper<UserEntity, UserPersistenceEntity> {
         userName: record.userName,
         age: record.age,
         email: record.email,
-        culture: record.culture,
       },
     });
   }

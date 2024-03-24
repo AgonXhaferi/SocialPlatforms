@@ -17,7 +17,7 @@ import { Result } from 'oxide.ts';
 export class SupertokensService {
   constructor(
     @Inject(ConfigInjectionToken) private config: AuthModuleConfig,
-    commandBus: CommandBus,
+    private readonly commandBus: CommandBus,
   ) {
     supertokens.init({
       appInfo: config.appInfo,

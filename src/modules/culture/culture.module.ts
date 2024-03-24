@@ -2,7 +2,7 @@ import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateCultureController } from '@modules/culture/interface/adapters/http/create-culture.controller';
-import { CreateCultureCommandHandler } from '@modules/culture/application/commands/create-culture.command-handler';
+import { CreateCultureCommandHandler } from '@modules/culture/application/command-handlers/create-culture.command-handler';
 import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
 import { CultureArticlesPersistenceEntity } from '@modules/culture/database/entities/culture-articles.persistence.entity';
 import { CultureEventsPersistenceEntity } from '@modules/culture/database/entities/culture-events.persistence.entity';
@@ -21,11 +21,20 @@ import { CultureArticleMapper } from '@modules/culture/mapper/culture-article.ma
 import { CultureEventMapper } from '@modules/culture/mapper/culture-event.mapper';
 import { CultureSubscriptionsRepositoryAdapter } from '@modules/culture/infrastructure/adapter/culture-subscriptions.repository.adapter';
 import { CultureEventRepositoryAdapter } from '@modules/culture/infrastructure/adapter/culture-event.repository.adapter';
+import { CreateCultureSubscriptionsService } from '@modules/culture/application/services/culture-subscriptions/create-culture-subscriptions.service';
+import { CreateCultureSubscriptionCommandHandler } from '@modules/culture/application/command-handlers/create-culture-subscription.command-handler';
 
 const httpControllers = [CreateCultureController];
 
-const commandHandlers: Provider[] = [CreateCultureCommandHandler];
-const services: Provider[] = [CreateCultureService];
+const commandHandlers: Provider[] = [
+  CreateCultureCommandHandler,
+  CreateCultureSubscriptionCommandHandler,
+];
+
+const services: Provider[] = [
+  CreateCultureService,
+  CreateCultureSubscriptionsService,
+];
 
 const mappers: Provider[] = [
   CultureMapper,
