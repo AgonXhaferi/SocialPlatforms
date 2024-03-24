@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { UserPersistenceEntity } from '@modules/user/database/entities/user.persistence.entity';
 import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
+import { sha256Hash } from '@modules/shared/functions/sha256-map.function';
 
 @Entity({
   name: 'culture_subscriptions',
@@ -42,8 +43,13 @@ export class CultureSubscriptionsPersistenceEntity {
   })
   culturePersistenceEntity: CulturePersistenceEntity;
 
-  constructor(userId: string, cultureId: string) {
+  constructor(userId: string, cultureId: string, isPrimary: boolean) {
     this.userId = userId;
     this.cultureId = cultureId;
+    this.isPrimary = isPrimary;
+  }
+
+  getId() {
+    return sha256Hash({ userId: this.userId, cultureId: this.cultureId });
   }
 }
