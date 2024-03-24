@@ -13,7 +13,7 @@ export const routesV1 = {
   },
   culture: {
     root: cultureRoot,
-    createEvent: '/create-event',
-    createArticle: '/create-article',
+    createEvent: '/event',
+    createArticle: '/article',
   },
 } as const;
