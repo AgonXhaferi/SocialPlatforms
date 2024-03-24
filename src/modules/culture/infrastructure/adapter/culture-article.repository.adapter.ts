@@ -3,7 +3,6 @@ import { CultureArticlesRepositoryPort } from '@modules/culture/application/port
 import { Paginated, PaginatedQueryParams } from '@src/libs/ddd';
 import { CultureArticlesEntity } from '../../domain/entities/culture-articles.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
 import { Repository } from 'typeorm';
 import { CultureArticleMapper } from '@modules/culture/mapper/culture-article.mapper';
 import { CultureArticlesPersistenceEntity } from '@modules/culture/database/entities/culture-articles.persistence.entity';
@@ -13,7 +12,7 @@ export class CultureArticleRepositoryAdapter
   implements CultureArticlesRepositoryPort
 {
   constructor(
-    @InjectRepository(CulturePersistenceEntity)
+    @InjectRepository(CultureArticlesPersistenceEntity)
     private readonly repository: Repository<CultureArticlesPersistenceEntity>,
     private readonly cultureArticleMapper: CultureArticleMapper,
   ) {}

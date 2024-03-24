@@ -16,6 +16,7 @@ export class CultureEventMapper
       copy.name,
       copy.description,
       copy.location,
+      copy.culture,
       copy.duration.startDate,
       copy.duration.endDate,
     );
@@ -37,6 +38,7 @@ export class CultureEventMapper
           longitude: record.location.longitude,
           latitude: record.location.latitude,
         }),
+        culture: record.cultureId,
       },
     });
   }

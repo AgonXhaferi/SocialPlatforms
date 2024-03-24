@@ -5,6 +5,7 @@ export class CreateCultureEventCommand extends Command {
   readonly description: string;
   readonly longitude: number;
   readonly latitude: number;
+  readonly culture: string;
   readonly startDate: Date;
   readonly endDate: Date;
 
@@ -16,5 +17,6 @@ export class CreateCultureEventCommand extends Command {
     this.latitude = props.latitude;
     this.startDate = props.startDate;
     this.endDate = props.endDate;
+    this.culture = props.culture;
   }
 }

@@ -12,7 +12,11 @@ export class CultureArticleMapper
   ): CultureArticlesPersistenceEntity {
     const copy = entity.getProps();
 
-    return new CultureArticlesPersistenceEntity(copy.title, copy.content);
+    return new CultureArticlesPersistenceEntity(
+      copy.title,
+      copy.content,
+      copy.culture,
+    );
   }
 
   toDomain(record: CultureArticlesPersistenceEntity): CultureArticlesEntity {
@@ -23,6 +27,7 @@ export class CultureArticleMapper
       props: {
         content: record.content,
         title: record.title,
+        culture: record.culture,
       },
     });
   }

@@ -285,6 +285,16 @@ export class MainInit1707168679757 implements MigrationInterface {
       }),
     );
 
+    // await queryRunner.createForeignKey(
+    //   'culture.culture_subscriptions',
+    //   new TableForeignKey({
+    //     name: 'subscription_user_fk',
+    //     columnNames: ['user_id'],
+    //     referencedColumnNames: ['id'],
+    //     referencedTableName: 'user.user',
+    //   }),
+    // );
+
     await queryRunner.createForeignKey(
       'culture.culture_articles',
       new TableForeignKey({

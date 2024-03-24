@@ -13,7 +13,7 @@ export class CultureEventRepositoryAdapter
   implements CultureEventsRepositoryPort
 {
   constructor(
-    @InjectRepository(CulturePersistenceEntity)
+    @InjectRepository(CultureEventsPersistenceEntity)
     private readonly repository: Repository<CultureEventsPersistenceEntity>,
     private readonly cultureEventsMapper: CultureEventMapper,
   ) {}

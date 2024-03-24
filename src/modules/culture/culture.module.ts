@@ -27,6 +27,7 @@ import { CreateCultureArticleCommandHandler } from '@modules/culture/application
 import { CreateCultureEventCommandHandler } from '@modules/culture/application/command-handlers/create-culture-event.command-handler';
 import { CreateCultureArticlesService } from '@modules/culture/application/services/culture-articles/create-culture-articles.service';
 import { CreateCultureEventsService } from '@modules/culture/application/services/culture-events/create-culture-events.service';
+import { CultureArticleRepositoryAdapter } from '@modules/culture/infrastructure/adapter/culture-article.repository.adapter';
 
 const httpControllers = [CultureController];
 
@@ -58,7 +59,7 @@ const repositories: Provider[] = [
   },
   {
     provide: CULTURE_ARTICLES_REPOSITORY,
-    useClass: CultureRepositoryAdapter,
+    useClass: CultureArticleRepositoryAdapter,
   },
   {
     provide: CULTURE_SUBSCRIPTIONS_REPOSITORY,

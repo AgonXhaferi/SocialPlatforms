@@ -10,7 +10,6 @@ import { routesV1 } from '@config/app.routes';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { IdResponse } from '@libs/api/id.response.dto';
-import { UserAlreadyExistsError } from '@modules/user/domain/errors/user-already-exists.error';
 import { ApiErrorResponse } from '@libs/api/api-error.response';
 import { match, Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';
@@ -46,7 +45,7 @@ export class CultureController {
     status: HttpStatus.BAD_REQUEST,
     type: ApiErrorResponse,
   })
-  @Post()
+  @Post(routesV1.culture.create)
   async createCulture(@Body() body: CreateCultureRequest): Promise<IdResponse> {
     const command = new CreateCultureCommand({
       name: body.name,
@@ -74,6 +73,7 @@ export class CultureController {
     const command = new CreateCultureArticleCommand({
       content: body.content,
       title: body.title,
+      culture: body.culture,
     });
 
     const result: Result<AggregateID, ExceptionBase> =
@@ -100,6 +100,7 @@ export class CultureController {
       endDate: body.endDate,
       latitude: body.latitude,
       longitude: body.longitude,
+      culture: body.culture,
     });
 
     const result: Result<AggregateID, ExceptionBase> =

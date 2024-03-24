@@ -31,6 +31,7 @@ export class CreateCultureEventsService {
         latitude: createCultureEventDto.latitude,
       }),
       name: createCultureEventDto.name,
+      culture: createCultureEventDto.culture,
     });
     try {
       const cultureId = await this.cultureRepository.create(cultureEvent);

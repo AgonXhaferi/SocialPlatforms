@@ -21,6 +21,7 @@ export class CreateCultureArticlesService {
     const createCultureArticleEntity = CultureArticlesEntity.create({
       title: createCultureArticleDto.title,
       content: createCultureArticleDto.content,
+      culture: createCultureArticleDto.culture,
     });
 
     try {

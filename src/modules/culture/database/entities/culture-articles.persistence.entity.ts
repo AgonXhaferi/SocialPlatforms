@@ -26,8 +26,8 @@ export class CultureArticlesPersistenceEntity {
   })
   content: string;
 
-  @Column({
-    name: 'culture',
+  @Column('varchar', {
+    name: 'culture_id',
   })
   culture: string;
 
@@ -41,8 +41,9 @@ export class CultureArticlesPersistenceEntity {
   })
   timeUpdated: Date;
 
-  constructor(title: string, content: string) {
+  constructor(title: string, content: string, culture: string) {
     this.title = title;
     this.content = content;
+    this.culture = culture;
   }
 }

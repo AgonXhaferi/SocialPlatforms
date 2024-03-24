@@ -4,6 +4,7 @@ import { CultureEventDurationValueObject } from '@modules/culture/domain/value-o
 export interface CultureEventsProps {
   name: string;
   description: string;
+  culture: string;
   location: GpsLocationValueObject;
   duration: CultureEventDurationValueObject;
 }

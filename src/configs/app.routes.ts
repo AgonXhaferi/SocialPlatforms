@@ -1,6 +1,6 @@
-const userRoot = 'users' as const;
-const authRoot = 'supertoken' as const;
-const cultureRoot = 'culture' as const;
+const userRoot = 'users';
+const authRoot = 'supertoken';
+const cultureRoot = 'culture';
 const v1 = 'v1';
 
 export const routesV1 = {
@@ -13,6 +13,7 @@ export const routesV1 = {
   },
   culture: {
     root: cultureRoot,
+    create: '',
     createEvent: '/event',
     createArticle: '/article',
   },

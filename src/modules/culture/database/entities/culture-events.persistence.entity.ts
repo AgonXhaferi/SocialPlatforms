@@ -1,10 +1,14 @@
 import {
   Column,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { GpsLocation } from '@modules/shared/entities/gps-location.persistence.entity';
+import { UserPersistenceEntity } from '@modules/user/database/entities/user.persistence.entity';
+import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
 
 @Entity({
   name: 'culture_events',
@@ -31,10 +35,10 @@ export class CultureEventsPersistenceEntity {
   })
   location: GpsLocation;
 
-  @Column({
-    name: 'culture',
+  @Column('varchar', {
+    name: 'culture_id',
   })
-  culture: string;
+  cultureId: string;
 
   @Column({
     name: 'start_date',
@@ -55,12 +59,14 @@ export class CultureEventsPersistenceEntity {
     name: string,
     description: string,
     location: GpsLocation,
+    culture: string,
     startDate: Date,
     endDate: Date,
   ) {
     this.name = name;
     this.description = description;
     this.location = location;
+    this.cultureId = culture;
     this.startDate = startDate;
     this.endDate = endDate;
   }
