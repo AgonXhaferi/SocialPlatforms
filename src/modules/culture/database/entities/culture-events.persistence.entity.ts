@@ -32,6 +32,11 @@ export class CultureEventsPersistenceEntity {
   location: GpsLocation;
 
   @Column({
+    name: 'culture',
+  })
+  culture: string;
+
+  @Column({
     name: 'start_date',
   })
   startDate: Date;

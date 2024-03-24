@@ -216,6 +216,11 @@ export class MainInit1707168679757 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'culture_id',
+            type: 'varchar',
+            foreignKeyConstraintName: 'culture_articles_culture_fk',
+          },
+          {
             name: 'time_created',
             type: 'timestamp with time zone',
             default: 'now()',
@@ -267,11 +272,36 @@ export class MainInit1707168679757 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'culture_id',
+            type: 'varchar',
+            foreignKeyConstraintName: 'culture_event_culture_fk',
+          },
+          {
             name: 'time_updated',
             type: 'timestamp with time zone',
             default: 'now()',
           },
         ],
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'culture.culture_articles',
+      new TableForeignKey({
+        name: 'culture_articles_culture_fk',
+        columnNames: ['culture_id'],
+        referencedColumnNames: ['name'],
+        referencedTableName: 'culture.culture',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'culture.culture_events',
+      new TableForeignKey({
+        name: 'culture_event_culture_fk',
+        columnNames: ['culture_id'],
+        referencedColumnNames: ['name'],
+        referencedTableName: 'culture.culture',
       }),
     );
   }

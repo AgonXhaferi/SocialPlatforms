@@ -26,6 +26,11 @@ export class CultureArticlesPersistenceEntity {
   })
   content: string;
 
+  @Column({
+    name: 'culture',
+  })
+  culture: string;
+
   @CreateDateColumn({
     name: 'time_created',
   })
