@@ -33,6 +33,7 @@ export class CreateUserCommandHandler implements ICommandHandler {
         throw createCultureSubscriptionResult.unwrapErr();
       }
     }
+
     return result;
   }
 }
