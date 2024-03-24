@@ -21,9 +21,9 @@ export class CreateCultureSubscriptionsService {
       userId: createCultureSubscriptionRequest.userId,
     });
 
-    const createdCultureSubscription =
+    const createdCultureSubscriptionId =
       await this.cultureSubscriptionsRepository.create(cultureSubscription);
 
-    return Ok(createCultureSubscriptionRequest.id);
+    return Ok(createdCultureSubscriptionId);
   }
 }
