@@ -23,7 +23,10 @@ import { ExceptionBase } from '@libs/exceptions';
 
 //Users WON'T be created via this controller, it's mainly an example.
 @UsePipes(ZodValidationPipe)
-@Controller(routesV1.version)
+@Controller({
+  version: routesV1.version,
+  path: routesV1.user.root,
+})
 export class CreateUserHttpController {
   constructor(private readonly commandBus: CommandBus) {}
 
@@ -41,7 +44,7 @@ export class CreateUserHttpController {
     status: HttpStatus.BAD_REQUEST,
     type: ApiErrorResponse,
   })
-  @Post(routesV1.user.root)
+  @Post()
   async create(@Body() body: CreateUserRequest): Promise<IdResponse> {
     const command = new CreateUserCommand({
       name: body.name,
@@ -83,7 +86,7 @@ export class CreateUserHttpController {
     status: HttpStatus.BAD_REQUEST,
     type: ApiErrorResponse,
   })
-  @Post(routesV1.user.root)
+  @Post(routesV1.user.following)
   async createUserFollowing(
     @Body() body: CreateUserFollowingRequest,
   ): Promise<IdResponse> {
