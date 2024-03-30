@@ -166,6 +166,55 @@ export class MainInit1707168679757 implements MigrationInterface {
       }),
     );
 
+    await queryRunner.createTable(
+      new Table({
+        name: 'user_following',
+        schema: 'user',
+        columns: [
+          {
+            name: 'follower',
+            type: 'uuid',
+            isPrimary: true,
+          },
+          {
+            name: 'followee',
+            type: 'uuid',
+            isPrimary: true,
+          },
+          {
+            name: 'time_created',
+            type: 'timestamp with time zone',
+            default: 'now()',
+          },
+          {
+            name: 'time_updated',
+            type: 'timestamp with time zone',
+            default: 'now()',
+          },
+        ],
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'user.user_following',
+      new TableForeignKey({
+        name: 'user_follower_role_fk',
+        columnNames: ['follower'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'user.user',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'user.user_following',
+      new TableForeignKey({
+        name: 'user_followee_fk',
+        columnNames: ['followee'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'user.user',
+      }),
+    );
+
     await queryRunner.createForeignKey(
       'user.user',
       new TableForeignKey({
@@ -284,16 +333,6 @@ export class MainInit1707168679757 implements MigrationInterface {
         ],
       }),
     );
-
-    // await queryRunner.createForeignKey(
-    //   'culture.culture_subscriptions',
-    //   new TableForeignKey({
-    //     name: 'subscription_user_fk',
-    //     columnNames: ['user_id'],
-    //     referencedColumnNames: ['id'],
-    //     referencedTableName: 'user.user',
-    //   }),
-    // );
 
     await queryRunner.createForeignKey(
       'culture.culture_articles',

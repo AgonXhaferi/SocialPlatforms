@@ -17,8 +17,11 @@ import { CreateUserCommand } from '@modules/user/application/commands/create-use
 import { match, Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';
 import { ZodValidationPipe } from 'nestjs-zod';
+import { CreateUserFollowingRequest } from '@modules/user/interface/adapters/request/create-user-following.request';
+import { CreateUserFollowingCommand } from '@modules/user/application/commands/create-user-following/create-user-following.command';
+import { ExceptionBase } from '@libs/exceptions';
 
-//Users won't be created via this controller, its mainly an example.
+//Users WON'T be created via this controller, it's mainly an example.
 @UsePipes(ZodValidationPipe)
 @Controller(routesV1.version)
 export class CreateUserHttpController {
@@ -60,6 +63,42 @@ export class CreateUserHttpController {
       Ok: (id: string) => new IdResponse(id),
       Err: (error: Error) => {
         if (error instanceof UserAlreadyExistsError)
+          throw new ConflictHttpException(error.message);
+        throw error;
+      },
+    });
+  }
+
+  @ApiOperation({ summary: 'Create user following.' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: IdResponse,
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: UserAlreadyExistsError.message, //Change this.
+    type: ApiErrorResponse,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    type: ApiErrorResponse,
+  })
+  @Post(routesV1.user.root)
+  async createUserFollowing(
+    @Body() body: CreateUserFollowingRequest,
+  ): Promise<IdResponse> {
+    const command = new CreateUserFollowingCommand({
+      followerId: body.followerId,
+      followeeId: body.followeeId,
+    });
+
+    const result: Result<AggregateID, ExceptionBase> =
+      await this.commandBus.execute(command);
+
+    return match(result, {
+      Ok: (id: string) => new IdResponse(id),
+      Err: (error: Error) => {
+        if (error instanceof ExceptionBase)
           throw new ConflictHttpException(error.message);
         throw error;
       },
