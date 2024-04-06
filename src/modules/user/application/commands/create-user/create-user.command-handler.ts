@@ -5,8 +5,7 @@ import { AggregateID } from '@libs/ddd';
 import { ExceptionBase } from '@libs/exceptions';
 import { CreateUserService } from '@modules/user/application/services/create-user.service';
 import { CreateCultureSubscriptionCommand } from '@modules/culture/application/commands/create-culture-subscription.command';
-import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
-import { NotFoundException } from '@nestjs/common';
+import { Transactional } from 'typeorm-transactional';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserCommandHandler implements ICommandHandler {
@@ -15,6 +14,7 @@ export class CreateUserCommandHandler implements ICommandHandler {
     private readonly commandBus: CommandBus,
   ) {}
 
+  @Transactional()
   async execute(
     command: CreateUserCommand,
   ): Promise<Result<AggregateID, ExceptionBase>> {
