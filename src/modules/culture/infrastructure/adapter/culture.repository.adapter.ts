@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CultureMapper } from '@modules/culture/mapper/culture.mapper';
+import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
 
 @Injectable()
 export class CultureRepositoryAdapter implements CultureRepositoryPort {
@@ -23,7 +24,7 @@ export class CultureRepositoryAdapter implements CultureRepositoryPort {
       const newCulture = await this.repository.save(culturePersistenceEntity);
       return newCulture.name;
     } catch (error) {
-      throw error;
+      throw new CultureDoesntExistsError();
     }
   }
 
@@ -35,7 +36,7 @@ export class CultureRepositoryAdapter implements CultureRepositoryPort {
     try {
       await this.repository.save(culturePersistenceEntities);
     } catch (error) {
-      throw error;
+      throw error; //TODO: Agon, Don't do this.
     }
   }
 

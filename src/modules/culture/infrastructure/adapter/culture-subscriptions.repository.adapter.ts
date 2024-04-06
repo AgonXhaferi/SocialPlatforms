@@ -6,6 +6,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CultureSubscriptionsPersistenceEntity } from '@modules/culture/database/entities/culture-subscriptions.persistence.entity';
 import { CultureSubscriptionsMapper } from '@modules/culture/mapper/culture-subscriptions.mapper';
+import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
+import { ArgumentInvalidException } from '@libs/exceptions';
+import { QueryFailedError } from 'typeorm';
 
 @Injectable()
 export class CultureSubscriptionsRepositoryAdapter
@@ -21,11 +24,19 @@ export class CultureSubscriptionsRepositoryAdapter
     const cultureSubscriptionsEntity =
       this.cultureSubscriptionsMapper.toPersistence(entity);
 
-    const newCultureSubscriptionEntity = await this.repository.save(
-      cultureSubscriptionsEntity,
-    );
+    try {
+      const newCultureSubscriptionEntity = await this.repository.save(
+        cultureSubscriptionsEntity,
+      );
 
-    return newCultureSubscriptionEntity.getId();
+      return newCultureSubscriptionEntity.getId();
+    } catch (error) {
+      if (error instanceof QueryFailedError) {
+        throw new ArgumentInvalidException(
+          `Culture with ${entity.getProps().cultureId} does not exist.`,
+        );
+      }
+    }
   }
 
   async createMany(entity: CultureSubscriptionsEntity[]): Promise<void> {

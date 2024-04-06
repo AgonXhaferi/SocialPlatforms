@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import supertokens from 'supertokens-node';
 import Session from 'supertokens-node/recipe/session';
 import Dashboard from 'supertokens-node/recipe/dashboard';
@@ -12,6 +12,7 @@ import { CommandBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from '@modules/user/application/commands/create-user/create-user.command';
 import { AggregateID } from '@libs/ddd';
 import { Result } from 'oxide.ts';
+import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
 
 @Injectable()
 export class SupertokensService {
@@ -115,10 +116,13 @@ export class SupertokensService {
                       await commandBus.execute(new CreateUserCommand(command));
 
                     if (result.isErr()) {
-                      console.error(
-                        `Error occurred while registering user through SuperTokens`,
-                      );
-                      console.error(result.unwrapUnchecked());
+                      if (
+                        result.unwrapErr() instanceof CultureDoesntExistsError
+                      ) {
+                        throw new NotFoundException(
+                          `${CultureDoesntExistsError.message}`,
+                        );
+                      }
                     }
                   }
 
