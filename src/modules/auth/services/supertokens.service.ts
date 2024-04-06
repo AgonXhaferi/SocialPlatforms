@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import supertokens from 'supertokens-node';
+import supertokens, { deleteUser } from 'supertokens-node';
 import Session from 'supertokens-node/recipe/session';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import EmailPassword from 'supertokens-node/recipe/emailpassword';
@@ -119,6 +119,7 @@ export class SupertokensService {
                       if (
                         result.unwrapErr() instanceof CultureDoesntExistsError
                       ) {
+                        await deleteUser(id);
                         throw new NotFoundException(
                           `${CultureDoesntExistsError.message}`,
                         );
