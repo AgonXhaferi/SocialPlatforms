@@ -27,7 +27,7 @@ export class CultureSubscriptionsRepositoryAdapter
         cultureSubscriptionsEntity,
       );
 
-      return newCultureSubscriptionEntity.getId();
+      return newCultureSubscriptionEntity.id;
     } catch (error) {
       if (error instanceof QueryFailedError) {
         throw new ArgumentInvalidException(

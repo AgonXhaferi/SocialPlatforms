@@ -49,15 +49,19 @@ export class MainInit1707168679757 implements MigrationInterface {
         schema: 'culture',
         columns: [
           {
+            name: 'id',
+            type: 'uuid',
+            default: 'gen_random_uuid()',
+            isPrimary: true,
+          },
+          {
             name: 'culture_id',
             type: 'varchar',
-            isPrimary: true,
             foreignKeyConstraintName: 'subscription_culture_fk',
           },
           {
             name: 'user_id',
             type: 'uuid',
-            isPrimary: true,
             foreignKeyConstraintName: 'subscription_user_fk',
           },
           {

@@ -1,20 +1,32 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserPersistenceEntity } from '@modules/user/database/entities/user.persistence.entity';
 import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
-import { sha256Hash } from '@modules/shared/functions/sha256-map.function';
 
 @Entity({
   name: 'culture_subscriptions',
   schema: 'culture',
 })
 export class CultureSubscriptionsPersistenceEntity {
-  @PrimaryColumn('uuid', {
+  @PrimaryGeneratedColumn('uuid', {
+    name: 'id',
+  })
+  id: string;
+
+  @Column('uuid', {
     name: 'user_id',
+    unique: true,
   })
   userId: string;
 
-  @PrimaryColumn('varchar', {
+  @Column('varchar', {
     name: 'culture_id',
+    unique: true,
   })
   cultureId: string;
 
@@ -47,9 +59,5 @@ export class CultureSubscriptionsPersistenceEntity {
     this.userId = userId;
     this.cultureId = cultureId;
     this.isPrimary = isPrimary;
-  }
-
-  getId() {
-    return sha256Hash({ userId: this.userId, cultureId: this.cultureId });
   }
 }
