@@ -1,4 +1,3 @@
-import { CreateUserCommand } from '@modules/user/application/commands/create-user/create-user.command';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';

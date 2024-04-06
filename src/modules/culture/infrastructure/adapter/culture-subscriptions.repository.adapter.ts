@@ -3,12 +3,10 @@ import { CultureSubscriptionsRepositoryPort } from '@modules/culture/application
 import { Paginated, PaginatedQueryParams } from '@src/libs/ddd';
 import { CultureSubscriptionsEntity } from '../../domain/entities/culture-subscriptions.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { CultureSubscriptionsPersistenceEntity } from '@modules/culture/database/entities/culture-subscriptions.persistence.entity';
 import { CultureSubscriptionsMapper } from '@modules/culture/mapper/culture-subscriptions.mapper';
-import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
-import { ArgumentInvalidException } from '@libs/exceptions';
-import { QueryFailedError } from 'typeorm';
+import { ArgumentInvalidException, NotFoundException } from '@libs/exceptions';
 
 @Injectable()
 export class CultureSubscriptionsRepositoryAdapter
@@ -47,8 +45,16 @@ export class CultureSubscriptionsRepositoryAdapter
     await this.repository.save(cultureSubscriptionEntities);
   }
 
-  findOneById(id: string): Promise<CultureSubscriptionsEntity> {
-    throw new Error('Method not implemented.');
+  async findOneById(id: string): Promise<CultureSubscriptionsEntity> {
+    const cultureSubscriptionEntity = await this.repository.findOneBy({
+      cultureId: id,
+    });
+
+    if (!cultureSubscriptionEntity) {
+      throw new NotFoundException();
+    }
+
+    return this.cultureSubscriptionsMapper.toDomain(cultureSubscriptionEntity);
   }
 
   async findAll(): Promise<CultureSubscriptionsEntity[]> {

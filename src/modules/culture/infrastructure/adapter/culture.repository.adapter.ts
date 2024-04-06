@@ -1,13 +1,12 @@
 import { CultureRepositoryPort } from '@modules/culture/application/ports/culture.repository.port';
 import { Paginated, PaginatedQueryParams } from '@src/libs/ddd';
-import { Option } from 'oxide.ts';
 import { CultureEntity } from '../../domain/entities/culture.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CultureMapper } from '@modules/culture/mapper/culture.mapper';
-import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
+import { ConflictException, NotFoundException } from '@libs/exceptions';
 
 @Injectable()
 export class CultureRepositoryAdapter implements CultureRepositoryPort {
@@ -24,7 +23,9 @@ export class CultureRepositoryAdapter implements CultureRepositoryPort {
       const newCulture = await this.repository.save(culturePersistenceEntity);
       return newCulture.name;
     } catch (error) {
-      throw new CultureDoesntExistsError();
+      throw new ConflictException(
+        `This culture already exists: ${culturePersistenceEntity.name}`,
+      );
     }
   }
 
@@ -36,7 +37,11 @@ export class CultureRepositoryAdapter implements CultureRepositoryPort {
     try {
       await this.repository.save(culturePersistenceEntities);
     } catch (error) {
-      throw error; //TODO: Agon, Don't do this.
+      throw new ConflictException(
+        `This culture already exists: ${culturePersistenceEntities
+          .map((entity) => entity.name)
+          .join(',')}`,
+      );
     }
   }
 
@@ -46,7 +51,7 @@ export class CultureRepositoryAdapter implements CultureRepositoryPort {
     });
 
     if (!culture) {
-      throw new BadRequestException('Entity not found'); //TODO: Use more verbose error type
+      throw new NotFoundException(`Culture with ID: [${id}] doesn't exist.`); //TODO: Use more verbose error type
     }
     return this.cultureMapper.toDomain(culture);
   }
