@@ -75,24 +75,32 @@ export class SupertokensService {
                     const country = formFields.find(
                       (formField) => formField.id === 'country',
                     ).value;
+
                     const postalCode = formFields.find(
                       (formField) => formField.id === 'postalCode',
                     ).value;
+
                     const street = formFields.find(
                       (formField) => formField.id === 'street',
                     ).value;
+
                     const name = formFields.find(
                       (formField) => formField.id === 'name',
                     ).value;
+
                     const lastName = formFields.find(
                       (formField) => formField.id === 'lastName',
                     ).value;
+
                     const userName = formFields.find(
                       (formField) => formField.id === 'userName',
                     ).value;
-                    const age = +formFields.find(
-                      (formField) => formField.id === 'age',
-                    ).value;
+
+                    const age = Number(
+                      formFields.find((formField) => formField.id === 'age')
+                        .value,
+                    );
+
                     const culture = formFields.find(
                       (formField) => formField.id === 'culture',
                     ).value;
