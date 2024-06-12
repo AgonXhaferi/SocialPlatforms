@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { Logger } from 'nestjs-pino';
 import { SupertokensExceptionFilter } from '@modules/auth/middleware/auth.filter';
 import { initializeTransactionalContext } from 'typeorm-transactional';
+import supertokens from 'supertokens-node';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -11,7 +12,11 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:4200'],
+    allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+    credentials: true,
+  });
 
   app.useLogger(app.get(Logger));
 
