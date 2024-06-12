@@ -27,7 +27,9 @@ export class SupertokensService {
         apiKey: config.apiKey,
       },
       recipeList: [
-        Session.init(),
+        Session.init({
+          exposeAccessTokenToFrontendInCookieBasedAuth: true,
+        }),
         EmailPassword.init({
           signUpFeature: {
             formFields: [
