@@ -2,7 +2,7 @@ import { CultureRepositoryPort } from '@modules/culture/application/ports/cultur
 import { Paginated, PaginatedQueryParams } from '@src/libs/ddd';
 import { CultureEntity } from '../../domain/entities/culture.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
 import { Injectable } from '@nestjs/common';
 import { CultureMapper } from '@modules/culture/mapper/culture.mapper';
@@ -15,6 +15,22 @@ export class CultureRepositoryAdapter implements CultureRepositoryPort {
     private readonly repository: Repository<CulturePersistenceEntity>,
     private readonly cultureMapper: CultureMapper,
   ) {}
+
+  async findManyById(cultureId: string): Promise<CultureEntity[]> {
+    const cultures = await this.repository.find({
+      where: {
+        name: Like(`%${cultureId}%`),
+      },
+    });
+
+    if (cultures.length === 0) {
+      throw new NotFoundException(
+        `Culture with ID: [${cultureId}] doesn't exist.`,
+      );
+    }
+
+    return cultures.map((culture) => this.cultureMapper.toDomain(culture));
+  }
 
   async create(entity: CultureEntity): Promise<string> {
     const culturePersistenceEntity = this.cultureMapper.toPersistence(entity);

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateCultureRequest } from '@modules/culture/interface/adapters/request/create-culture.request';
+import { CreateCultureRequest } from '@modules/culture/interface/request/create-culture.request';
 import { Err, Ok, Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';
 import {

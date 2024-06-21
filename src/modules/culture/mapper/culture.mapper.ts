@@ -2,6 +2,7 @@ import { Mapper } from '@libs/ddd';
 import { CultureEntity } from '@modules/culture/domain/entities/culture.entity';
 import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
 import { Injectable } from '@nestjs/common';
+import { CultureResponse } from '@modules/culture/interface/response/culture.response';
 
 @Injectable()
 export class CultureMapper
@@ -30,7 +31,7 @@ export class CultureMapper
     });
   }
 
-  toResponse(entity: CultureEntity) {
-    throw new Error('Method not implemented.');
+  toResponse(entity: CultureEntity): CultureResponse {
+    return new CultureResponse(entity.getProps().name);
   }
 }

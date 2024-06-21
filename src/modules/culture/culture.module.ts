@@ -28,6 +28,7 @@ import { CreateCultureEventCommandHandler } from '@modules/culture/application/c
 import { CreateCultureArticlesService } from '@modules/culture/application/services/culture-articles/create-culture-articles.service';
 import { CreateCultureEventsService } from '@modules/culture/application/services/culture-events/create-culture-events.service';
 import { CultureArticleRepositoryAdapter } from '@modules/culture/infrastructure/adapter/culture-article.repository.adapter';
+import { FindCultureQueryHandler } from '@modules/culture/application/queries/find-culture-query.handler';
 
 const httpControllers = [CultureController];
 
@@ -37,6 +38,8 @@ const commandHandlers: Provider[] = [
   CreateCultureArticleCommandHandler,
   CreateCultureEventCommandHandler,
 ];
+
+const queryHandlers: Provider[] = [FindCultureQueryHandler];
 
 const services: Provider[] = [
   CreateCultureService,
@@ -82,6 +85,12 @@ const repositories: Provider[] = [
     ]),
   ],
   controllers: [...httpControllers],
-  providers: [...commandHandlers, ...repositories, ...services, ...mappers],
+  providers: [
+    ...commandHandlers,
+    ...repositories,
+    ...services,
+    ...mappers,
+    ...queryHandlers,
+  ],
 })
 export class CultureModule {}
