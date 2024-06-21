@@ -4,7 +4,7 @@ import {
   Controller,
   Get,
   HttpStatus,
-  Param,
+  NotFoundException,
   Post,
   Query,
   UsePipes,
@@ -27,6 +27,7 @@ import { ExceptionBase } from '@libs/exceptions';
 import { CreateCultureEventCommand } from '@modules/culture/application/commands/create-culture-event.command';
 import { FindCultureQuery } from '@modules/culture/application/queries/find-culture.query';
 import { CultureResponse } from '@modules/culture/interface/response/culture.response';
+import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
@@ -59,6 +60,13 @@ export class CultureController {
 
     const result: Result<CultureResponse[], Error> =
       await this.queryBus.execute(query);
+
+    if (
+      result.isErr() &&
+      result.unwrapErr() instanceof CultureDoesntExistsError
+    ) {
+      throw new NotFoundException();
+    }
 
     return result.unwrap();
   }
