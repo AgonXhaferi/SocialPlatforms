@@ -5,6 +5,7 @@ import {
   Get,
   HttpStatus,
   NotFoundException,
+  Param,
   Post,
   Query,
   UsePipes,

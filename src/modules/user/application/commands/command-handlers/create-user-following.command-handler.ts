@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateUserFollowingCommand } from '@modules/user/application/commands/create-user-following/create-user-following.command';
+import { CreateUserFollowingCommand } from '@modules/user/application/commands/create-user-following.command';
 import { CreateUserFollowingService } from '@modules/user/application/services/create-user-following.service';
 import { Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';

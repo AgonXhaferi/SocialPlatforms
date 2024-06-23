@@ -1,7 +1,7 @@
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { CreateUserHttpController } from '@modules/user/interface/adapters/http/create-user.http.controller';
-import { CreateUserCommandHandler } from '@modules/user/application/commands/create-user/create-user.command-handler';
+import { UserHttpController } from '@modules/user/interface/adapters/http/user.http.controller';
+import { CreateUserCommandHandler } from '@modules/user/application/commands/command-handlers/create-user.command-handler';
 import { CreateUserService } from '@modules/user/application/services/create-user.service';
 import {
   USER_FOLLOWING_REPOSITORY,
@@ -15,9 +15,9 @@ import { UserFollowingPersistenceEntity } from '@modules/user/database/entities/
 import { UserFollowingMapper } from '@modules/user/mapper/user-following.mapper';
 import { UserFollowingRepositoryAdapter } from '@modules/user/infrastructure/adapter/user-following.repository.adapter';
 import { CreateUserFollowingService } from '@modules/user/application/services/create-user-following.service';
-import { CreateUserFollowingCommandHandler } from '@modules/user/application/commands/create-user-following/create-user-following.command-handler';
+import { CreateUserFollowingCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-following.command-handler';
 
-const httpControllers = [CreateUserHttpController];
+const httpControllers = [UserHttpController];
 
 const commandHandlers: Provider[] = [
   CreateUserCommandHandler,

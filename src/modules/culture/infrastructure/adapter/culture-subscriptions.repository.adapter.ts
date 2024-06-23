@@ -18,6 +18,19 @@ export class CultureSubscriptionsRepositoryAdapter
     private readonly cultureSubscriptionsMapper: CultureSubscriptionsMapper,
   ) {}
 
+  async findUsersByPrimaryCultureId(cultureId: string): Promise<string[]> {
+    const cultureSubscriptionEntity = await this.repository.find({
+      where: {
+        cultureId,
+        isPrimary: true,
+      },
+    });
+
+    return cultureSubscriptionEntity.map(
+      (cultureSubscriptionEntity) => cultureSubscriptionEntity.userId,
+    );
+  }
+
   async create(entity: CultureSubscriptionsEntity): Promise<string> {
     const cultureSubscriptionsEntity =
       this.cultureSubscriptionsMapper.toPersistence(entity);

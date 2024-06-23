@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { USER_FOLLOWING_REPOSITORY } from '@modules/user/user.di-tokens';
 import { UserFollowingRepositoryPort } from '@modules/user/application/ports/user-following.repository.port';
-import { CreateUserFollowingCommand } from '@modules/user/application/commands/create-user-following/create-user-following.command';
+import { CreateUserFollowingCommand } from '@modules/user/application/commands/create-user-following.command';
 import { UserFollowingEntity } from '@modules/user/domain/entities/user-following.entity';
 import { Err, Ok, Result } from 'oxide.ts';
 import { ConflictException, ExceptionBase } from '@libs/exceptions';

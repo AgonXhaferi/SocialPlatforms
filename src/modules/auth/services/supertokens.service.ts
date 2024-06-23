@@ -9,7 +9,7 @@ import {
   ConfigInjectionToken,
 } from '@modules/auth/supertoken-config.interface';
 import { CommandBus } from '@nestjs/cqrs';
-import { CreateUserCommand } from '@modules/user/application/commands/create-user/create-user.command';
+import { CreateUserCommand } from '@modules/user/application/commands/create-user.command';
 import { AggregateID } from '@libs/ddd';
 import { Result } from 'oxide.ts';
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';

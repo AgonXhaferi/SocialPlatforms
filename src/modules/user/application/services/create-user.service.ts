@@ -6,7 +6,7 @@ import { Address } from '@modules/user/domain/value-objects/address.value-object
 import { Err, Ok, Result } from 'oxide.ts';
 import { ConflictException, ExceptionBase } from '@libs/exceptions';
 import { UserAlreadyExistsError } from '@modules/user/domain/errors/user-already-exists.error';
-import { CreateUserCommand } from '@modules/user/application/commands/create-user/create-user.command';
+import { CreateUserCommand } from '@modules/user/application/commands/create-user.command';
 import { AggregateID } from '@libs/ddd';
 import { FullName } from '@modules/user/domain/value-objects/full-name.value-object';
 import { UserRoles } from '@modules/user/domain/props/user.types';

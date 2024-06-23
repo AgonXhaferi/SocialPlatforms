@@ -5,7 +5,7 @@ import { Option } from 'oxide.ts';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPersistenceEntity } from '@modules/user/database/entities/user.persistence.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { UserMapper } from '@modules/user/mapper/user.mapper';
 
 @Injectable()
@@ -15,6 +15,13 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     private readonly repository: Repository<UserPersistenceEntity>,
     private readonly userMapper: UserMapper,
   ) {}
+
+  async findUsersByIds(userIds: string[]): Promise<UserEntity[]> {
+    //.findBy({ id: In([1, 2, 3]) })
+    const persistenceUsers = await this.repository.findBy({
+      id: In(userIds),
+    });
+  }
 
   async create(entity: UserEntity): Promise<string> {
     const persistenceEntity = this.userMapper.toPersistence(entity);

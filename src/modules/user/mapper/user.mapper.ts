@@ -5,6 +5,7 @@ import { UserPersistenceEntity } from '@modules/user/database/entities/user.pers
 import { Address } from '@modules/user/domain/value-objects/address.value-object';
 import { FullName } from '@modules/user/domain/value-objects/full-name.value-object';
 import { UserRoles } from '@modules/user/domain/props/user.types';
+import { UserResponseDto } from '@modules/user/interface/adapters/response/user.response.dto';
 
 @Injectable()
 export class UserMapper implements Mapper<UserEntity, UserPersistenceEntity> {
@@ -49,7 +50,5 @@ export class UserMapper implements Mapper<UserEntity, UserPersistenceEntity> {
     });
   }
 
-  toResponse(entity: UserEntity) {
-    throw new Error('Method not implemented.');
-  }
+  toResponse(entity: UserEntity): UserResponseDto {}
 }

@@ -22,7 +22,7 @@ export class FindCultureQueryHandler implements IQueryHandler {
   ): Promise<Result<CultureResponse[], ExceptionBase>> {
     try {
       const cultures = await this.cultureRepository.findManyById(
-        findCultureQueryValue.cultureName, //TODO: Double check this and make sure that its okay, review implementations from different projects
+        findCultureQueryValue.cultureName,
       );
 
       return Ok(
