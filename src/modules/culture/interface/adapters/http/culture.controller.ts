@@ -72,6 +72,34 @@ export class CultureController {
     return result.unwrap();
   }
 
+  @ApiOperation({ summary: 'Subscribe to a culture' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: IdResponse,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    type: ApiErrorResponse,
+  })
+  @Get()
+  async subscribeToCulture(
+    @Body() body: CreateCultureRequest,
+  ): Promise<CultureResponse[]> {
+    const query = new FindCultureQuery({ cultureName });
+
+    const result: Result<CultureResponse[], Error> =
+      await this.queryBus.execute(query);
+
+    if (
+      result.isErr() &&
+      result.unwrapErr() instanceof CultureDoesntExistsError
+    ) {
+      throw new NotFoundException();
+    }
+
+    return result.unwrap();
+  }
+
   @ApiOperation({ summary: 'Create a culture' })
   @ApiResponse({
     status: HttpStatus.OK,
