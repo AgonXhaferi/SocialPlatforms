@@ -50,5 +50,17 @@ export class UserMapper implements Mapper<UserEntity, UserPersistenceEntity> {
     });
   }
 
-  toResponse(entity: UserEntity): UserResponseDto {}
+  toResponse(entity: UserEntity): UserResponseDto {
+    return new UserResponseDto(
+      entity.id,
+      entity.getProps().fullName.firstName,
+      entity.getProps().fullName.lastName,
+      entity.getProps().userName,
+      entity.getProps().email,
+      entity.getProps().address.country,
+      entity.getProps().address.postalCode,
+      entity.getProps().address.street,
+      entity.getProps().age,
+    );
+  }
 }

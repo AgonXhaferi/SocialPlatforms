@@ -17,15 +17,16 @@ import { UserAlreadyExistsError } from '@modules/user/domain/errors/user-already
 import { ApiErrorResponse } from '@libs/api/api-error.response';
 import { CreateUserRequest } from '@modules/user/interface/adapters/request/create-user.request';
 import { CreateUserCommand } from '@modules/user/application/commands/create-user.command';
-import { match, Result } from 'oxide.ts';
+import { match, Ok, Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { CreateUserFollowingRequest } from '@modules/user/interface/adapters/request/create-user-following.request';
 import { CreateUserFollowingCommand } from '@modules/user/application/commands/create-user-following.command';
 import { ExceptionBase } from '@libs/exceptions';
-import { CultureResponse } from '@modules/culture/interface/response/culture.response';
 import { FindPrimaryCultureUsersQuery } from '@modules/culture/application/queries/find-primary-culture-users.query';
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
+import { UserResponseDto } from '@modules/user/interface/adapters/response/user.response.dto';
+import { GetUsersByIdsQuery } from '@modules/user/application/queries/queries/get-users-by-ids.query';
 
 //Users WON'T be created via this controller, it's mainly an example.
 @UsePipes(ZodValidationPipe)
@@ -42,7 +43,8 @@ export class UserHttpController {
   @Get('/:primaryCulture')
   async getUsersByPrimaryCulture(
     @Param('primaryCulture') primaryCulture: string,
-  ) {
+  ): Promise<UserResponseDto[]> {
+    //TODO: I feel that some logging could be performed here? Tho honestly might not be necessary considering its a GET operation.
     const query = new FindPrimaryCultureUsersQuery({
       primaryCultureName: primaryCulture,
     });
@@ -55,6 +57,15 @@ export class UserHttpController {
     ) {
       throw new NotFoundException();
     }
+
+    const usersQuery = new GetUsersByIdsQuery({
+      userIds: result.unwrap(),
+    });
+
+    const usersQueryResult: Result<UserResponseDto[], ExceptionBase> =
+      await this.queryBus.execute(usersQuery);
+
+    return usersQueryResult.unwrap();
   }
 
   @ApiOperation({ summary: 'Create a user' })

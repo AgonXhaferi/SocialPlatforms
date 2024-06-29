@@ -1,7 +1,7 @@
-export class GetUserByIdsQuery {
+export class GetUsersByIdsQuery {
   userIds: string[];
 
-  constructor(props: GetUserByIdsQuery) {
+  constructor(props: GetUsersByIdsQuery) {
     this.userIds = props.userIds;
   }
 }

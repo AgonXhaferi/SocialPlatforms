@@ -16,6 +16,7 @@ import { UserFollowingMapper } from '@modules/user/mapper/user-following.mapper'
 import { UserFollowingRepositoryAdapter } from '@modules/user/infrastructure/adapter/user-following.repository.adapter';
 import { CreateUserFollowingService } from '@modules/user/application/services/create-user-following.service';
 import { CreateUserFollowingCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-following.command-handler';
+import { GetUsersByIdsQueryHandler } from '@modules/user/application/queries/query-handlers/get-users-by-ids.query.handler';
 
 const httpControllers = [UserHttpController];
 
@@ -23,6 +24,8 @@ const commandHandlers: Provider[] = [
   CreateUserCommandHandler,
   CreateUserFollowingCommandHandler,
 ];
+
+const queryHandlers: Provider[] = [GetUsersByIdsQueryHandler];
 
 const services: Provider[] = [CreateUserService, CreateUserFollowingService];
 
@@ -48,6 +51,12 @@ const repositories: Provider[] = [
     ]),
   ],
   controllers: [...httpControllers],
-  providers: [...commandHandlers, ...services, ...repositories, ...mappers],
+  providers: [
+    ...commandHandlers,
+    ...services,
+    ...repositories,
+    ...mappers,
+    ...queryHandlers,
+  ],
 })
 export class UserModule {}

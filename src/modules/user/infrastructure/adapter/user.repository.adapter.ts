@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepositoryPort } from '@modules/user/application/ports/user.repository.port';
-import { PaginatedQueryParams, Paginated } from '@src/libs/ddd';
-import { Option } from 'oxide.ts';
+import { Paginated, PaginatedQueryParams } from '@src/libs/ddd';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPersistenceEntity } from '@modules/user/database/entities/user.persistence.entity';
@@ -17,10 +16,13 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
   ) {}
 
   async findUsersByIds(userIds: string[]): Promise<UserEntity[]> {
-    //.findBy({ id: In([1, 2, 3]) })
     const persistenceUsers = await this.repository.findBy({
       id: In(userIds),
     });
+
+    return persistenceUsers.map((persistenceUser) =>
+      this.userMapper.toDomain(persistenceUser),
+    );
   }
 
   async create(entity: UserEntity): Promise<string> {
