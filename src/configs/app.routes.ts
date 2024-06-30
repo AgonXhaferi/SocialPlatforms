@@ -17,5 +17,6 @@ export const routesV1 = {
     create: '',
     createEvent: '/event',
     createArticle: '/article',
+    subscribe: '/subscribe',
   },
 } as const;

@@ -29,6 +29,8 @@ import { CreateCultureEventCommand } from '@modules/culture/application/commands
 import { FindCultureQuery } from '@modules/culture/application/queries/find-culture.query';
 import { CultureResponse } from '@modules/culture/interface/response/culture.response';
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
+import { CreateCultureSubscriptionCommand } from '@modules/culture/application/commands/create-culture-subscription.command';
+import { CreateCultureSubscriptionRequest } from '@modules/culture/interface/request/create-culture-subscription.request';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
@@ -57,34 +59,6 @@ export class CultureController {
   })
   @Get()
   async findCulturesById(@Query('cultureName') cultureName: string) {
-    const query = new FindCultureQuery({ cultureName });
-
-    const result: Result<CultureResponse[], Error> =
-      await this.queryBus.execute(query);
-
-    if (
-      result.isErr() &&
-      result.unwrapErr() instanceof CultureDoesntExistsError
-    ) {
-      throw new NotFoundException();
-    }
-
-    return result.unwrap();
-  }
-
-  @ApiOperation({ summary: 'Subscribe to a culture' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: IdResponse,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    type: ApiErrorResponse,
-  })
-  @Get()
-  async subscribeToCulture(
-    @Body() body: CreateCultureRequest,
-  ): Promise<CultureResponse[]> {
     const query = new FindCultureQuery({ cultureName });
 
     const result: Result<CultureResponse[], Error> =
@@ -129,6 +103,38 @@ export class CultureController {
       Ok: (id: string) => new IdResponse(id),
       Err: (error: Error) => {
         if (error instanceof CultureAlreadyExistsError)
+          throw new ConflictHttpException(error.message);
+        throw error;
+      },
+    });
+  }
+
+  @ApiOperation({ summary: 'Subscribe to a culture' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: IdResponse,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    type: ApiErrorResponse,
+  })
+  @Post(routesV1.culture.subscribe)
+  async subscribeToCulture(
+    @Body() body: CreateCultureSubscriptionRequest,
+  ): Promise<IdResponse> {
+    const command = new CreateCultureSubscriptionCommand({
+      cultureId: body.cultureId,
+      userId: body.userId,
+      isPrimary: false,
+    });
+
+    const result: Result<AggregateID, CultureDoesntExistsError> =
+      await this.commandBus.execute(command);
+
+    return match(result, {
+      Ok: (id: string) => new IdResponse(id),
+      Err: (error: Error) => {
+        if (error instanceof CultureDoesntExistsError)
           throw new ConflictHttpException(error.message);
         throw error;
       },

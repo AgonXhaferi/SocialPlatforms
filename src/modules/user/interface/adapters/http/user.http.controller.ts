@@ -17,7 +17,7 @@ import { UserAlreadyExistsError } from '@modules/user/domain/errors/user-already
 import { ApiErrorResponse } from '@libs/api/api-error.response';
 import { CreateUserRequest } from '@modules/user/interface/adapters/request/create-user.request';
 import { CreateUserCommand } from '@modules/user/application/commands/create-user.command';
-import { match, Ok, Result } from 'oxide.ts';
+import { match, Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { CreateUserFollowingRequest } from '@modules/user/interface/adapters/request/create-user-following.request';
