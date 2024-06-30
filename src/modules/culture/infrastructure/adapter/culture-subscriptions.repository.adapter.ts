@@ -7,6 +7,7 @@ import { QueryFailedError, Repository } from 'typeorm';
 import { CultureSubscriptionsPersistenceEntity } from '@modules/culture/database/entities/culture-subscriptions.persistence.entity';
 import { CultureSubscriptionsMapper } from '@modules/culture/mapper/culture-subscriptions.mapper';
 import { ArgumentInvalidException, NotFoundException } from '@libs/exceptions';
+import { UserSubscriptionDto } from '../dto/user-subscription.dto';
 
 @Injectable()
 export class CultureSubscriptionsRepositoryAdapter
@@ -18,15 +19,27 @@ export class CultureSubscriptionsRepositoryAdapter
     private readonly cultureSubscriptionsMapper: CultureSubscriptionsMapper,
   ) {}
 
+  async isUserSubscribedToCulture(
+    userSubscriptionDto: UserSubscriptionDto,
+  ): Promise<boolean> {
+    const cultureSubscriptionsPersistenceEntity =
+      await this.repository.findOneBy({
+        cultureId: userSubscriptionDto.cultureId,
+        userId: userSubscriptionDto.userId,
+      });
+
+    return cultureSubscriptionsPersistenceEntity !== null;
+  }
+
   async findUsersByPrimaryCultureId(cultureId: string): Promise<string[]> {
-    const cultureSubscriptionEntity = await this.repository.find({
+    const cultureSubscriptionsPersistenceEntities = await this.repository.find({
       where: {
         cultureId,
         isPrimary: true,
       },
     });
 
-    return cultureSubscriptionEntity.map(
+    return cultureSubscriptionsPersistenceEntities.map(
       (cultureSubscriptionEntity) => cultureSubscriptionEntity.userId,
     );
   }
@@ -44,7 +57,8 @@ export class CultureSubscriptionsRepositoryAdapter
     } catch (error) {
       if (error instanceof QueryFailedError) {
         throw new ArgumentInvalidException(
-          `Culture with ${entity.getProps().cultureId} does not exist.`,
+          // @ts-ignore
+          `Subscription for user ${entity.getProps().userId} with cultureId: ${entity.getProps().cultureId} : ${error.detail}`,
         );
       }
     }
@@ -59,6 +73,8 @@ export class CultureSubscriptionsRepositoryAdapter
   }
 
   async findOneById(id: string): Promise<CultureSubscriptionsEntity> {
+    //TODO: just for future reference, we can define the findOneBy as a more generic implementation. Seeing as you can pass in
+    //TODO: the were clause
     const cultureSubscriptionEntity = await this.repository.findOneBy({
       cultureId: id,
     });

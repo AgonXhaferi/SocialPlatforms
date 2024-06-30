@@ -31,6 +31,8 @@ import { CultureResponse } from '@modules/culture/interface/response/culture.res
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
 import { CreateCultureSubscriptionCommand } from '@modules/culture/application/commands/create-culture-subscription.command';
 import { CreateCultureSubscriptionRequest } from '@modules/culture/interface/request/create-culture-subscription.request';
+import { FindIsUserSubscribedToCultureQuery } from '@modules/culture/application/queries/find-is-user-subscribed-to-culture.query';
+import { CultureSubscriptionError } from '@modules/culture/domain/error/culture-subscription.error';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
@@ -63,6 +65,42 @@ export class CultureController {
 
     const result: Result<CultureResponse[], Error> =
       await this.queryBus.execute(query);
+
+    if (
+      result.isErr() &&
+      result.unwrapErr() instanceof CultureDoesntExistsError
+    ) {
+      throw new NotFoundException();
+    }
+
+    return result.unwrap();
+  }
+
+  @ApiOperation({ summary: 'Create a culture' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: IdResponse,
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: CultureAlreadyExistsError.message,
+    type: ApiErrorResponse,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    type: ApiErrorResponse,
+  })
+  @Get(routesV1.culture.isSubscribed)
+  async findIsUserSubscribedToCulture(
+    @Query('cultureName') cultureName: string,
+    @Query('userId') userId: string,
+  ) {
+    const query = new FindIsUserSubscribedToCultureQuery({
+      userId,
+      cultureId: cultureName,
+    });
+
+    const result: Result<boolean, Error> = await this.queryBus.execute(query);
 
     if (
       result.isErr() &&
@@ -134,8 +172,8 @@ export class CultureController {
     return match(result, {
       Ok: (id: string) => new IdResponse(id),
       Err: (error: Error) => {
-        if (error instanceof CultureDoesntExistsError)
-          throw new ConflictHttpException(error.message);
+        if (error instanceof CultureSubscriptionError)
+          throw new ConflictHttpException(error.cause.message);
         throw error;
       },
     });

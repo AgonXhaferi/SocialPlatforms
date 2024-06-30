@@ -5,7 +5,7 @@ import { CreateCultureSubscriptionCommand } from '@modules/culture/application/c
 import { CultureSubscriptionsEntity } from '@modules/culture/domain/entities/culture-subscriptions.entity';
 import { Err, Ok } from 'oxide.ts';
 import { ArgumentInvalidException } from '@libs/exceptions';
-import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
+import { CultureSubscriptionError } from '@modules/culture/domain/error/culture-subscription.error';
 
 @Injectable()
 export class CreateCultureSubscriptionsService {
@@ -30,7 +30,7 @@ export class CreateCultureSubscriptionsService {
       return Ok(createdCultureSubscriptionId);
     } catch (error) {
       if (error instanceof ArgumentInvalidException) {
-        return Err(new CultureDoesntExistsError(error));
+        return Err(new CultureSubscriptionError(error));
       }
     }
   }

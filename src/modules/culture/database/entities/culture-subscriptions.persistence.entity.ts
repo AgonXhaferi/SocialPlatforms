@@ -12,6 +12,7 @@ import { CulturePersistenceEntity } from '@modules/culture/database/entities/cul
   name: 'culture_subscriptions',
   schema: 'culture',
 })
+// @Unique(['userId', 'culture_id'])
 export class CultureSubscriptionsPersistenceEntity {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',

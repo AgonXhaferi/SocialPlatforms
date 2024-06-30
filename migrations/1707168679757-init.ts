@@ -83,6 +83,9 @@ export class MainInit1707168679757 implements MigrationInterface {
       }),
     );
 
+    await queryRunner.query(`alter table culture.culture_subscriptions
+add constraint unique_user_id_const UNIQUE (user_id, culture_id);`);
+
     await queryRunner.createTable(
       new Table({
         name: 'user_roles',

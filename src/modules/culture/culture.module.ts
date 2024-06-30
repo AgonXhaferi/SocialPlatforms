@@ -30,6 +30,7 @@ import { CreateCultureEventsService } from '@modules/culture/application/service
 import { CultureArticleRepositoryAdapter } from '@modules/culture/infrastructure/adapter/culture-article.repository.adapter';
 import { FindCultureQueryHandler } from '@modules/culture/application/queries/query-handlers/find-culture.query.handler';
 import { FindPrimaryCultureUsersQueryHandler } from '@modules/culture/application/queries/query-handlers/find-primary-culture-users.query.handler';
+import { FindIsUserSubscribedToCultureQueryHandler } from '@modules/culture/application/queries/query-handlers/find-is-user-subscribed-to-culture.query.handler';
 
 const httpControllers = [CultureController];
 
@@ -43,6 +44,7 @@ const commandHandlers: Provider[] = [
 const queryHandlers: Provider[] = [
   FindCultureQueryHandler,
   FindPrimaryCultureUsersQueryHandler,
+  FindIsUserSubscribedToCultureQueryHandler,
 ];
 
 const services: Provider[] = [

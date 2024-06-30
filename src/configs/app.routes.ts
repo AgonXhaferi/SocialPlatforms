@@ -18,5 +18,6 @@ export const routesV1 = {
     createEvent: '/event',
     createArticle: '/article',
     subscribe: '/subscribe',
+    isSubscribed: '/is-subscribed',
   },
 } as const;
