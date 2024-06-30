@@ -19,7 +19,7 @@ export class CreateCultureSubscriptionsService {
   ) {
     const cultureSubscription = CultureSubscriptionsEntity.create({
       cultureId: createCultureSubscriptionRequest.cultureId,
-      isPrimary: true,
+      isPrimary: createCultureSubscriptionRequest.isPrimary,
       userId: createCultureSubscriptionRequest.userId,
     });
 
