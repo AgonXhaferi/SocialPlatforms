@@ -58,7 +58,7 @@ export class CultureSubscriptionsRepositoryAdapter
       if (error instanceof QueryFailedError) {
         throw new ArgumentInvalidException(
           // @ts-ignore
-          `Subscription for user ${entity.getProps().userId} with cultureId: ${entity.getProps().cultureId} : ${error.detail}`,
+          `Subscription for user ${entity.getProps().userId} with cultureId: ${entity.getProps().cultureId} : [${error.detail}]`,
         );
       }
     }
