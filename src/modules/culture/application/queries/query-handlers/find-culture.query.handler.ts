@@ -13,7 +13,8 @@ import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-
 export class FindCultureQueryHandler implements IQueryHandler {
   constructor(
     @Inject(CULTURE_REPOSITORY)
-    private readonly cultureRepository: CultureRepositoryPort,
+    private readonly cultureRepository: CultureRepositoryPort, //TODO: This is technically speaking wrong if we go strictly based off of the documentation
+    //TODO: Since the data that is returned from the CultureRepositoryPort is returned in the aggreagateEntityType, realistically we should really just be injecting the pure REPOSITORY type from tyeporm.
     private readonly cultureMapper: CultureMapper,
   ) {}
 
