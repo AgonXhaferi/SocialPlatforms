@@ -14,7 +14,7 @@ export class FindCultureQueryHandler implements IQueryHandler {
   constructor(
     @Inject(CULTURE_REPOSITORY)
     private readonly cultureRepository: CultureRepositoryPort, //TODO: This is technically speaking wrong if we go strictly based off of the documentation
-    //TODO: Since the data that is returned from the CultureRepositoryPort is returned in the aggreagateEntityType, realistically we should really just be injecting the pure REPOSITORY type from tyeporm.
+    //TODO: Since the data that is returned from the CultureRepositoryPort is returned in the aggregate EntityType, realistically we should really just be injecting the pure REPOSITORY type from tyeporm.
     private readonly cultureMapper: CultureMapper,
   ) {}
 
