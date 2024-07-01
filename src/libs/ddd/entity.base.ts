@@ -49,7 +49,7 @@ export abstract class Entity<EntityProps> {
 
   private readonly _createdAt: Date;
 
-  private _updatedAt: Date;
+  private readonly _updatedAt: Date;
 
   get id(): AggregateID {
     return this._id;
