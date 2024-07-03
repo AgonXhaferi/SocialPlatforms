@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserPersistenceEntity } from '@modules/user/database/entities/user.persistence.entity';
 import { Repository } from 'typeorm';
-import { UserMapper } from '@modules/user/mapper/user.mapper';
 import { UserFollowingPersistenceEntity } from '@modules/user/database/entities/user-following.persistence.entity';
 import { UserFollowingMapper } from '@modules/user/mapper/user-following.mapper';
 import { UserFollowingRepositoryPort } from '@modules/user/application/ports/user-following.repository.port';
-import { PaginatedQueryParams, Paginated } from '@src/libs/ddd';
+import { Paginated, PaginatedQueryParams } from '@src/libs/ddd';
 import { UserFollowingEntity } from '../../domain/entities/user-following.entity';
+import { AreUsersFollowersDto } from '../dto/are-users-followers.dto';
 
 @Injectable()
 export class UserFollowingRepositoryAdapter
@@ -18,6 +17,17 @@ export class UserFollowingRepositoryAdapter
     private readonly repository: Repository<UserFollowingPersistenceEntity>,
     private readonly mapper: UserFollowingMapper,
   ) {}
+
+  async isThereUserFollowing(
+    areUsersFollowersDto: AreUsersFollowersDto,
+  ): Promise<boolean> {
+    const areUsersFollowers = await this.repository.findOneBy({
+      followerId: areUsersFollowersDto.followerId,
+      followeeId: areUsersFollowersDto.followeeId,
+    });
+
+    return !!areUsersFollowers;
+  }
 
   async create(entity: UserFollowingEntity): Promise<string> {
     const userFollowingPersistenceEntity = this.mapper.toPersistence(entity);

@@ -18,6 +18,7 @@ import { CreateUserFollowingService } from '@modules/user/application/services/c
 import { CreateUserFollowingCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-following.command-handler';
 import { FindUsersByIdsQueryHandler } from '@modules/user/application/queries/query-handlers/find-users-by-ids-query.handler';
 import { FindUserByIdQueryHandler } from '@modules/user/application/queries/query-handlers/find-user-by-id.query.handler';
+import { FindAreUsersFollowersQueryHandler } from '@modules/user/application/queries/query-handlers/find-are-users-followers.query.handler';
 
 const httpControllers = [UserHttpController];
 
@@ -29,6 +30,7 @@ const commandHandlers: Provider[] = [
 const queryHandlers: Provider[] = [
   FindUsersByIdsQueryHandler,
   FindUserByIdQueryHandler,
+  FindAreUsersFollowersQueryHandler,
 ];
 
 const services: Provider[] = [CreateUserService, CreateUserFollowingService];

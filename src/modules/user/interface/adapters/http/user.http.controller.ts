@@ -7,6 +7,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Query,
   UsePipes,
 } from '@nestjs/common';
 import { routesV1 } from '@config/app.routes';
@@ -28,6 +29,7 @@ import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-
 import { UserResponseDto } from '@modules/user/interface/adapters/response/user.response.dto';
 import { FindUsersByIdsQuery } from '@modules/user/application/queries/queries/find-users-by-ids.query';
 import { FindUserByIdQuery } from '@modules/user/application/queries/queries/find-user-by-id.query';
+import { FindAreUsersFollowersQuery } from '@modules/user/application/queries/queries/find-are-users-followers.query';
 
 //Users WON'T be created via this controller, it's mainly an example.
 @UsePipes(ZodValidationPipe)
@@ -144,7 +146,7 @@ export class UserHttpController {
     status: HttpStatus.BAD_REQUEST,
     type: ApiErrorResponse,
   })
-  @Post(routesV1.user.following)
+  @Post(routesV1.user.following.root)
   async createUserFollowing(
     @Body() body: CreateUserFollowingRequest,
   ): Promise<IdResponse> {
@@ -164,5 +166,19 @@ export class UserHttpController {
         throw error;
       },
     });
+  }
+
+  //TODO: Make this more decorated for swagger.
+  @Get(routesV1.user.following.areFollowing)
+  async areUsersFollowers(
+    @Query('followerId') followerId: string,
+    @Query('followeeId') followeeId: string,
+  ): Promise<boolean> {
+    const query = new FindAreUsersFollowersQuery({
+      followerId,
+      followeeId,
+    });
+
+    return this.queryBus.execute(query);
   }
 }
