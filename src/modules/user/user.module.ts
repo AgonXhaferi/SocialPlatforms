@@ -16,7 +16,8 @@ import { UserFollowingMapper } from '@modules/user/mapper/user-following.mapper'
 import { UserFollowingRepositoryAdapter } from '@modules/user/infrastructure/adapter/user-following.repository.adapter';
 import { CreateUserFollowingService } from '@modules/user/application/services/create-user-following.service';
 import { CreateUserFollowingCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-following.command-handler';
-import { GetUsersByIdsQueryHandler } from '@modules/user/application/queries/query-handlers/get-users-by-ids.query.handler';
+import { FindUsersByIdsQueryHandler } from '@modules/user/application/queries/query-handlers/find-users-by-ids-query.handler';
+import { FindUserByIdQueryHandler } from '@modules/user/application/queries/query-handlers/find-user-by-id.query.handler';
 
 const httpControllers = [UserHttpController];
 
@@ -25,7 +26,10 @@ const commandHandlers: Provider[] = [
   CreateUserFollowingCommandHandler,
 ];
 
-const queryHandlers: Provider[] = [GetUsersByIdsQueryHandler];
+const queryHandlers: Provider[] = [
+  FindUsersByIdsQueryHandler,
+  FindUserByIdQueryHandler,
+];
 
 const services: Provider[] = [CreateUserService, CreateUserFollowingService];
 

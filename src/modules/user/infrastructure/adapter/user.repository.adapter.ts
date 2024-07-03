@@ -37,8 +37,12 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     throw new Error('Method not implemented.');
   }
 
-  findOneById(id: string): Promise<UserEntity> {
-    throw new Error('Method not implemented.');
+  async findOneById(id: string): Promise<UserEntity> {
+    const userPersistenceEntity = await this.repository.findOneBy({
+      id: id,
+    });
+
+    return this.userMapper.toDomain(userPersistenceEntity);
   }
 
   findAll(): Promise<UserEntity[]> {

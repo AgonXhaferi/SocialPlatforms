@@ -8,6 +8,8 @@ export const routesV1 = {
   user: {
     root: userRoot,
     following: 'follow',
+    cultureSubscription: 'culture/:primaryCulture',
+    findUser: '/:userId',
   },
   auth: {
     root: authRoot,
