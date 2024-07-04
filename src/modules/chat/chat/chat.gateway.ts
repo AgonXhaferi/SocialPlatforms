@@ -6,6 +6,7 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 
+//TODO: Just put this in the user module and define them as user messages, theres not enough complexity to make its own module for messages.
 @WebSocketGateway(3001, {
   cors: {
     origin: 'http://localhost:4200',
