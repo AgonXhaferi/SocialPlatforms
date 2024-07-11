@@ -1,6 +1,7 @@
 const userRoot = 'users';
 const authRoot = 'supertoken';
 const cultureRoot = 'culture';
+const chatRoot = 'chat';
 const followRoot = 'follow';
 const v1 = 'v1';
 
@@ -14,6 +15,9 @@ export const routesV1 = {
     },
     cultureSubscription: 'culture/:primaryCulture',
     findUser: '/:userId',
+  },
+  chat: {
+    root: chatRoot,
   },
   auth: {
     root: authRoot,

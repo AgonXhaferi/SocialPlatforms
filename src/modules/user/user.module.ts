@@ -28,12 +28,19 @@ import { UserMessageRepositoryAdapter } from '@modules/user/infrastructure/adapt
 import { UserChatRepositoryAdapter } from '@modules/user/infrastructure/adapter/user-chat.repository.adapter';
 import { UserMessageMapper } from '@modules/user/mapper/user-message.mapper';
 import { UserChatMapper } from '@modules/user/mapper/user-chat.mapper';
+import { ChatHttpController } from '@modules/user/interface/adapters/http/chat.http.controller';
+import { CreateUserMessageCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-message.command.handler';
+import { CreateChatCommandHandler } from '@modules/user/application/commands/command-handlers/create-chat.command-handler';
+import { CreateUserMessageService } from '@modules/user/application/services/create-user-message.service';
+import { CreateChatService } from '@modules/user/application/services/create-chat.service';
 
-const httpControllers = [UserHttpController];
+const httpControllers = [UserHttpController, ChatHttpController];
 
 const commandHandlers: Provider[] = [
   CreateUserCommandHandler,
   CreateUserFollowingCommandHandler,
+  CreateUserMessageCommandHandler,
+  CreateChatCommandHandler,
 ];
 
 const websocketGateway: Provider[] = [ChatGateway];
@@ -44,7 +51,12 @@ const queryHandlers: Provider[] = [
   FindAreUsersFollowersQueryHandler,
 ];
 
-const services: Provider[] = [CreateUserService, CreateUserFollowingService];
+const services: Provider[] = [
+  CreateUserService,
+  CreateUserFollowingService,
+  CreateUserMessageService,
+  CreateChatService,
+];
 
 const mappers: Provider[] = [
   UserMapper,
