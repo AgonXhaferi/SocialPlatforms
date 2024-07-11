@@ -4,7 +4,7 @@ import { UserEntity } from '@modules/user/domain/entities/user.entity';
 import { UserPersistenceEntity } from '@modules/user/database/entities/user.persistence.entity';
 import { Address } from '@modules/user/domain/value-objects/address.value-object';
 import { FullName } from '@modules/user/domain/value-objects/full-name.value-object';
-import { UserRoles } from '@modules/user/domain/props/user.types';
+import { UserRoles } from '@modules/user/domain/props/user.props';
 import { UserResponseDto } from '@modules/user/interface/adapters/response/user.response.dto';
 
 @Injectable()

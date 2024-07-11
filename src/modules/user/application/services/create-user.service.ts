@@ -9,7 +9,7 @@ import { UserAlreadyExistsError } from '@modules/user/domain/errors/user-already
 import { CreateUserCommand } from '@modules/user/application/commands/create-user.command';
 import { AggregateID } from '@libs/ddd';
 import { FullName } from '@modules/user/domain/value-objects/full-name.value-object';
-import { UserRoles } from '@modules/user/domain/props/user.types';
+import { UserRoles } from '@modules/user/domain/props/user.props';
 
 @Injectable()
 export class CreateUserService {

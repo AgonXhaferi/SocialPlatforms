@@ -4,7 +4,9 @@ import { UserHttpController } from '@modules/user/interface/adapters/http/user.h
 import { CreateUserCommandHandler } from '@modules/user/application/commands/command-handlers/create-user.command-handler';
 import { CreateUserService } from '@modules/user/application/services/create-user.service';
 import {
+  USER_CHAT_REPOSITORY,
   USER_FOLLOWING_REPOSITORY,
+  USER_MESSAGE_REPOSITORY,
   USER_REPOSITORY,
 } from '@modules/user/user.di-tokens';
 import { UserRepositoryAdapter } from '@modules/user/infrastructure/adapter/user.repository.adapter';
@@ -19,6 +21,13 @@ import { CreateUserFollowingCommandHandler } from '@modules/user/application/com
 import { FindUsersByIdsQueryHandler } from '@modules/user/application/queries/query-handlers/find-users-by-ids-query.handler';
 import { FindUserByIdQueryHandler } from '@modules/user/application/queries/query-handlers/find-user-by-id.query.handler';
 import { FindAreUsersFollowersQueryHandler } from '@modules/user/application/queries/query-handlers/find-are-users-followers.query.handler';
+import { ChatGateway } from '@modules/user/interface/adapters/websocket-gateway/chat.gateway';
+import { UserMessagePersistenceEntity } from '@modules/user/database/entities/user-message.persistence.entity';
+import { UserChatPersistenceEntity } from '@modules/user/database/entities/user-chat.persistence.entity';
+import { UserMessageRepositoryAdapter } from '@modules/user/infrastructure/adapter/user-message.repository.adapter';
+import { UserChatRepositoryAdapter } from '@modules/user/infrastructure/adapter/user-chat.repository.adapter';
+import { UserMessageMapper } from '@modules/user/mapper/user-message.mapper';
+import { UserChatMapper } from '@modules/user/mapper/user-chat.mapper';
 
 const httpControllers = [UserHttpController];
 
@@ -26,6 +35,8 @@ const commandHandlers: Provider[] = [
   CreateUserCommandHandler,
   CreateUserFollowingCommandHandler,
 ];
+
+const websocketGateway: Provider[] = [ChatGateway];
 
 const queryHandlers: Provider[] = [
   FindUsersByIdsQueryHandler,
@@ -35,7 +46,12 @@ const queryHandlers: Provider[] = [
 
 const services: Provider[] = [CreateUserService, CreateUserFollowingService];
 
-const mappers: Provider[] = [UserMapper, UserFollowingMapper];
+const mappers: Provider[] = [
+  UserMapper,
+  UserFollowingMapper,
+  UserMessageMapper,
+  UserChatMapper,
+];
 
 const repositories: Provider[] = [
   {
@@ -46,6 +62,14 @@ const repositories: Provider[] = [
     provide: USER_FOLLOWING_REPOSITORY,
     useClass: UserFollowingRepositoryAdapter,
   },
+  {
+    provide: USER_MESSAGE_REPOSITORY,
+    useClass: UserMessageRepositoryAdapter,
+  },
+  {
+    provide: USER_CHAT_REPOSITORY,
+    useClass: UserChatRepositoryAdapter,
+  },
 ];
 
 @Module({
@@ -54,6 +78,8 @@ const repositories: Provider[] = [
     TypeOrmModule.forFeature([
       UserPersistenceEntity,
       UserFollowingPersistenceEntity,
+      UserMessagePersistenceEntity,
+      UserChatPersistenceEntity,
     ]),
   ],
   controllers: [...httpControllers],
@@ -63,6 +89,7 @@ const repositories: Provider[] = [
     ...repositories,
     ...mappers,
     ...queryHandlers,
+    ...websocketGateway,
   ],
 })
 export class UserModule {}

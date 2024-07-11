@@ -53,6 +53,7 @@ export class UserHttpController {
     });
 
     const result: Result<string[], Error> = await this.queryBus.execute(query);
+    //TODO: Error type might need to be different.
 
     if (
       result.isErr() &&

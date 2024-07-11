@@ -15,7 +15,6 @@ import { ContextInterceptor } from '@libs/application/context/ContextInterceptor
 import { ExceptionInterceptor } from '@libs/application/interceptors/exception.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CultureModule } from '@modules/culture/culture.module';
-import { ChatModule } from '@modules/chat/chat.module';
 
 const eventEmitter: Provider = {
   provide: EventEmitter2,
@@ -67,7 +66,6 @@ const interceptors = [
       delimiter: '.',
       ignoreErrors: false,
     }),
-    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService, eventEmitter, ...interceptors],

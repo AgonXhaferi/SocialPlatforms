@@ -6,7 +6,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserRoles } from '@modules/user/domain/props/user.types';
+import { UserRoles } from '@modules/user/domain/props/user.props';
 import { CultureSubscriptionsPersistenceEntity } from '@modules/culture/database/entities/culture-subscriptions.persistence.entity';
 
 @Entity('user', {

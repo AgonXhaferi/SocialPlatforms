@@ -1,4 +1,4 @@
-import { UserProps, UserRoles } from '@modules/user/domain/props/user.types';
+import { UserProps, UserRoles } from '@modules/user/domain/props/user.props';
 import { AggregateID, AggregateRoot } from '@libs/ddd';
 import * as crypto from 'crypto';
 
