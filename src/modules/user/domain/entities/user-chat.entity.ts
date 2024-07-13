@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@libs/ddd';
 import { UserChatProps } from '@modules/user/domain/props/user-chat.props';
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 
 export class UserChatEntity extends AggregateRoot<UserChatProps> {
   protected _id: string;

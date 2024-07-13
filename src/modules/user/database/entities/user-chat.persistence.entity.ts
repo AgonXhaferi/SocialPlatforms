@@ -3,7 +3,6 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('chat', { schema: 'chat' })
@@ -21,11 +20,6 @@ export class UserChatPersistenceEntity {
     name: 'time_created',
   })
   timeCreated: Date;
-
-  @UpdateDateColumn({
-    name: 'time_updated',
-  })
-  timeUpdated: Date;
 
   constructor(userOne: string, userTwo: string) {
     this.userOne = userOne;

@@ -6,13 +6,11 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { IdResponse } from '@libs/api/id.response.dto';
 import { UserAlreadyExistsError } from '@modules/user/domain/errors/user-already-exists.error';
 import { ApiErrorResponse } from '@libs/api/api-error.response';
-import { CreateUserRequest } from '@modules/user/interface/adapters/request/create-user.request';
-import { CreateUserCommand } from '@modules/user/application/commands/create-user.command';
 import { match, Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';
 import { ConflictException as ConflictHttpException } from '@nestjs/common/exceptions/conflict.exception';
 import { CreateUserChatRequest } from '@modules/user/interface/adapters/request/create-user-chat.request';
-import { CreateChatCommand } from '@modules/user/application/commands/create-chat.command';
+import { CreateUserChatCommand } from '@modules/user/application/commands/create-user-chat.command';
 import { ExceptionBase } from '@libs/exceptions';
 
 @UsePipes(ZodValidationPipe)
@@ -37,7 +35,7 @@ export class ChatHttpController {
   })
   @Post()
   async create(@Body() body: CreateUserChatRequest): Promise<IdResponse> {
-    const command = new CreateChatCommand({
+    const command = new CreateUserChatCommand({
       userOneId: body.userOneId,
       userTwoId: body.userTwoId,
     });

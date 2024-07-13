@@ -30,9 +30,9 @@ import { UserMessageMapper } from '@modules/user/mapper/user-message.mapper';
 import { UserChatMapper } from '@modules/user/mapper/user-chat.mapper';
 import { ChatHttpController } from '@modules/user/interface/adapters/http/chat.http.controller';
 import { CreateUserMessageCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-message.command.handler';
-import { CreateChatCommandHandler } from '@modules/user/application/commands/command-handlers/create-chat.command-handler';
+import { CreateUserChatCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-chat.command-handler';
 import { CreateUserMessageService } from '@modules/user/application/services/create-user-message.service';
-import { CreateChatService } from '@modules/user/application/services/create-chat.service';
+import { CreateUserChatService } from '@modules/user/application/services/create-user-chat.service';
 
 const httpControllers = [UserHttpController, ChatHttpController];
 
@@ -40,7 +40,7 @@ const commandHandlers: Provider[] = [
   CreateUserCommandHandler,
   CreateUserFollowingCommandHandler,
   CreateUserMessageCommandHandler,
-  CreateChatCommandHandler,
+  CreateUserChatCommandHandler,
 ];
 
 const websocketGateway: Provider[] = [ChatGateway];
@@ -55,7 +55,7 @@ const services: Provider[] = [
   CreateUserService,
   CreateUserFollowingService,
   CreateUserMessageService,
-  CreateChatService,
+  CreateUserChatService,
 ];
 
 const mappers: Provider[] = [
