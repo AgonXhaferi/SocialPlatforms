@@ -5,6 +5,7 @@ const createUserMessageSchema = z.object({
   chatId: z.string().uuid(),
   senderId: z.string().uuid(),
   content: z.string().min(1),
+  timestamp: z.date(),
 });
 
 export class CreateUserMessageRequest extends createZodDto(

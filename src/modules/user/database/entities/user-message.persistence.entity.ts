@@ -2,8 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { UserChatPersistenceEntity } from '@modules/user/database/entities/user-chat.persistence.entity';
 
 @Entity('message', {
   schema: 'chat',
@@ -24,9 +27,25 @@ export class UserMessagePersistenceEntity {
   @CreateDateColumn()
   timestamp: Date;
 
-  constructor(chatId: string, senderId: string, content: string) {
+  @ManyToOne(
+    () => UserChatPersistenceEntity,
+    (userChat) => userChat.userMessages,
+  )
+  @JoinColumn({
+    name: 'chat_id',
+    referencedColumnName: 'id',
+  })
+  userChat: UserChatPersistenceEntity;
+
+  constructor(
+    chatId: string,
+    senderId: string,
+    content: string,
+    timestamp: Date,
+  ) {
     this.chatId = chatId;
     this.senderId = senderId;
     this.content = content;
+    this.timestamp = timestamp;
   }
 }

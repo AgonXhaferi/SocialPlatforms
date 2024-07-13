@@ -4,6 +4,7 @@ export class CreateUserMessageCommand extends Command {
   senderId: string;
   content: string;
   chatId: string;
+  timestamp: Date;
 
   constructor(props: CommandProps<CreateUserMessageCommand>) {
     super(props);

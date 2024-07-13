@@ -20,6 +20,7 @@ export class CreateUserChatService {
     const userChatEntity = UserChatEntity.create({
       userOneId: command.userOneId,
       userTwoId: command.userTwoId,
+      userMessages: [],
     });
 
     try {

@@ -18,6 +18,8 @@ export const routesV1 = {
   },
   chat: {
     root: chatRoot,
+    message: '/message',
+    findChat: '/:shipment',
   },
   auth: {
     root: authRoot,

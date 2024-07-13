@@ -1,17 +1,29 @@
-import { Body, Controller, HttpStatus, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  NotFoundException,
+  Post,
+  Query,
+  UsePipes,
+} from '@nestjs/common';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { routesV1 } from '@config/app.routes';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { IdResponse } from '@libs/api/id.response.dto';
-import { UserAlreadyExistsError } from '@modules/user/domain/errors/user-already-exists.error';
 import { ApiErrorResponse } from '@libs/api/api-error.response';
 import { match, Result } from 'oxide.ts';
 import { AggregateID } from '@libs/ddd';
-import { ConflictException as ConflictHttpException } from '@nestjs/common/exceptions/conflict.exception';
 import { CreateUserChatRequest } from '@modules/user/interface/adapters/request/create-user-chat.request';
 import { CreateUserChatCommand } from '@modules/user/application/commands/create-user-chat.command';
 import { ExceptionBase } from '@libs/exceptions';
+import { CreateUserMessageRequest } from '@modules/user/interface/adapters/request/create-user-message.request';
+import { CreateUserMessageCommand } from '@modules/user/application/commands/create-user-message.command';
+import { FindUserChatByIdQuery } from '@modules/user/application/queries/queries/find-user-chat-by-id.query';
+import { UserChatResponse } from '@modules/user/interface/adapters/response/user-chat.response';
+import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
@@ -46,8 +58,52 @@ export class ChatHttpController {
     return match(result, {
       Ok: (id: string) => new IdResponse(id),
       Err: (error: Error) => {
-        if (error instanceof UserAlreadyExistsError)
-          throw new ConflictHttpException(error.message);
+        // if (error instanceof UserAlreadyExistsError)
+        //   throw new ConflictHttpException(error.message); Define specific HTTP exception errors.
+        throw error;
+      },
+    });
+  }
+
+  @Get(routesV1.chat.findChat)
+  async findChatById(
+    @Query('chatId') chatId: string,
+  ): Promise<UserChatResponse> {
+    const query = new FindUserChatByIdQuery({
+      chatId,
+    });
+
+    const result: Result<UserChatResponse, ExceptionBase> =
+      await this.queryBus.execute(query);
+
+    if (
+      result.isErr() //Improve error handling
+    ) {
+      throw new NotFoundException();
+    }
+
+    return result.unwrap();
+  }
+
+  @Post(routesV1.chat.message)
+  async createUserMessage(
+    @Body() createUserMessageRequest: CreateUserMessageRequest,
+  ) {
+    const command = new CreateUserMessageCommand({
+      chatId: createUserMessageRequest.chatId,
+      content: createUserMessageRequest.content,
+      senderId: createUserMessageRequest.senderId,
+      timestamp: createUserMessageRequest.timestamp,
+    });
+
+    const result: Result<AggregateID, ExceptionBase> =
+      await this.commandBus.execute(command);
+
+    return match(result, {
+      Ok: (id: string) => new IdResponse(id),
+      Err: (error: Error) => {
+        // if (error instanceof UserAlreadyExistsError)
+        //   throw new ConflictHttpException(error.message); Define specific HTTP exception errors.
         throw error;
       },
     });

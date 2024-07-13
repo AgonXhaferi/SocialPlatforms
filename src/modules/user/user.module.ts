@@ -33,6 +33,7 @@ import { CreateUserMessageCommandHandler } from '@modules/user/application/comma
 import { CreateUserChatCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-chat.command-handler';
 import { CreateUserMessageService } from '@modules/user/application/services/create-user-message.service';
 import { CreateUserChatService } from '@modules/user/application/services/create-user-chat.service';
+import { FindUserChatByIdQueryHandler } from '@modules/user/application/queries/query-handlers/find-user-chat-by-id.query.handler';
 
 const httpControllers = [UserHttpController, ChatHttpController];
 
@@ -49,6 +50,7 @@ const queryHandlers: Provider[] = [
   FindUsersByIdsQueryHandler,
   FindUserByIdQueryHandler,
   FindAreUsersFollowersQueryHandler,
+  FindUserChatByIdQueryHandler,
 ];
 
 const services: Provider[] = [
