@@ -3,7 +3,6 @@ import { FindAreUsersFollowersQuery } from '@modules/user/application/queries/qu
 import { Inject } from '@nestjs/common';
 import { USER_FOLLOWING_REPOSITORY } from '@modules/user/user.di-tokens';
 import { UserFollowingRepositoryPort } from '@modules/user/application/ports/user-following.repository.port';
-import { Result } from 'oxide.ts';
 
 @QueryHandler(FindAreUsersFollowersQuery)
 export class FindAreUsersFollowersQueryHandler

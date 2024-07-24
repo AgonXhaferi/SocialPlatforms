@@ -4,6 +4,7 @@ import {
   Get,
   HttpStatus,
   NotFoundException,
+  Param,
   Post,
   Query,
   UsePipes,
@@ -24,6 +25,7 @@ import { CreateUserMessageCommand } from '@modules/user/application/commands/cre
 import { FindUserChatByIdQuery } from '@modules/user/application/queries/queries/find-user-chat-by-id.query';
 import { UserChatResponse } from '@modules/user/interface/adapters/response/user-chat.response';
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
+import { FindDoesChatExistQuery } from '@modules/user/application/queries/queries/find-does-chat-exist.query';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
@@ -35,6 +37,19 @@ export class ChatHttpController {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
+
+  @Get(routesV1.chat.doesChatExist)
+  async doesChatExist(
+    @Param('userOneId') userOneId: string,
+    @Param('userTwoId') userTwoId: string,
+  ): Promise<boolean> {
+    const query = new FindDoesChatExistQuery({
+      userOneId: userOneId,
+      userTwoId: userTwoId,
+    });
+
+    return this.queryBus.execute(query);
+  }
 
   @ApiOperation({ summary: 'Create a chat' })
   @ApiResponse({

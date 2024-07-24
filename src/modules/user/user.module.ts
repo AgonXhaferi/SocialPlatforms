@@ -34,6 +34,7 @@ import { CreateUserChatCommandHandler } from '@modules/user/application/commands
 import { CreateUserMessageService } from '@modules/user/application/services/create-user-message.service';
 import { CreateUserChatService } from '@modules/user/application/services/create-user-chat.service';
 import { FindUserChatByIdQueryHandler } from '@modules/user/application/queries/query-handlers/find-user-chat-by-id.query.handler';
+import { FindDoesChatExistQueryHandler } from '@modules/user/application/queries/query-handlers/find-does-chat-exist.query.handler';
 
 const httpControllers = [UserHttpController, ChatHttpController];
 
@@ -51,6 +52,7 @@ const queryHandlers: Provider[] = [
   FindUserByIdQueryHandler,
   FindAreUsersFollowersQueryHandler,
   FindUserChatByIdQueryHandler,
+  FindDoesChatExistQueryHandler,
 ];
 
 const services: Provider[] = [

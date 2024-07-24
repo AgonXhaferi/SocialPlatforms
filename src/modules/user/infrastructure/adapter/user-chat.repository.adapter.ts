@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserChatMapper } from '@modules/user/mapper/user-chat.mapper';
 import { UserChatEntity } from '../../domain/entities/user-chat.entity';
+import { DoesChatExistDto } from '../dto/does-chat-exist.dto';
 
 export class UserChatRepositoryAdapter implements UserChatRepositoryPort {
   constructor(
@@ -12,6 +13,23 @@ export class UserChatRepositoryAdapter implements UserChatRepositoryPort {
     private readonly repository: Repository<UserChatPersistenceEntity>,
     private readonly mapper: UserChatMapper,
   ) {}
+
+  async doesChatExist(doesChatExistDto: DoesChatExistDto): Promise<boolean> {
+    const doesChatExist = await this.repository.find({
+      where: [
+        {
+          userOne: doesChatExistDto.userOneId,
+          userTwo: doesChatExistDto.userTwoId,
+        },
+        {
+          userOne: doesChatExistDto.userTwoId,
+          userTwo: doesChatExistDto.userOneId,
+        },
+      ],
+    });
+
+    return !!doesChatExist;
+  }
 
   async create(entity: UserChatEntity): Promise<string> {
     const persistenceEntity = this.mapper.toPersistence(entity);

@@ -19,7 +19,8 @@ export const routesV1 = {
   chat: {
     root: chatRoot,
     message: '/message',
-    findChat: '/:shipment',
+    findChat: '/:chatId',
+    doesChatExist: '/exist',
   },
   auth: {
     root: authRoot,
