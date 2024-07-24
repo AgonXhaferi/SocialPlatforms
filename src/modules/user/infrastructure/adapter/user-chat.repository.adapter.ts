@@ -15,18 +15,19 @@ export class UserChatRepositoryAdapter implements UserChatRepositoryPort {
   ) {}
 
   async doesChatExist(doesChatExistDto: DoesChatExistDto): Promise<boolean> {
-    const doesChatExist = await this.repository.find({
-      where: [
-        {
-          userOne: doesChatExistDto.userOneId,
-          userTwo: doesChatExistDto.userTwoId,
-        },
-        {
-          userOne: doesChatExistDto.userTwoId,
-          userTwo: doesChatExistDto.userOneId,
-        },
-      ],
-    });
+    const { userOneId, userTwoId } = doesChatExistDto;
+
+    const doesChatExist = await this.repository
+      .createQueryBuilder('chat')
+      .where('(chat.userOne = :userOneId AND chat.userTwo = :userTwoId)', {
+        userOneId,
+        userTwoId,
+      })
+      .orWhere('(chat.userOne = :userTwoId AND chat.userTwo = :userOneId)', {
+        userOneId,
+        userTwoId,
+      })
+      .getOne();
 
     return !!doesChatExist;
   }
