@@ -3,6 +3,9 @@ import { FindDoesChatExistQuery } from '@modules/user/application/queries/querie
 import { Inject } from '@nestjs/common';
 import { USER_CHAT_REPOSITORY } from '@modules/user/user.di-tokens';
 import { UserChatRepositoryPort } from '@modules/user/application/ports/user-chat.repository.port';
+import { Err, Ok, Result } from 'oxide.ts';
+import { ExceptionBase, NotFoundException } from '@libs/exceptions';
+import { AggregateID } from '@libs/ddd';
 
 @QueryHandler(FindDoesChatExistQuery)
 export class FindDoesChatExistQueryHandler
@@ -13,10 +16,16 @@ export class FindDoesChatExistQueryHandler
     private readonly userChatRepositoryPort: UserChatRepositoryPort,
   ) {}
 
-  async execute(query: FindDoesChatExistQuery): Promise<boolean> {
-    return await this.userChatRepositoryPort.doesChatExist({
+  async execute(
+    query: FindDoesChatExistQuery,
+  ): Promise<Result<AggregateID, ExceptionBase>> {
+    const doesChatExist = await this.userChatRepositoryPort.doesChatExist({
       userOneId: query.userOneId,
       userTwoId: query.userTwoId,
     });
+
+    if (doesChatExist) {
+      return Ok(doesChatExist.id);
+    } else return Err(new NotFoundException());
   }
 }

@@ -14,10 +14,12 @@ export class UserChatRepositoryAdapter implements UserChatRepositoryPort {
     private readonly mapper: UserChatMapper,
   ) {}
 
-  async doesChatExist(doesChatExistDto: DoesChatExistDto): Promise<boolean> {
+  async doesChatExist(
+    doesChatExistDto: DoesChatExistDto,
+  ): Promise<UserChatPersistenceEntity> {
     const { userOneId, userTwoId } = doesChatExistDto;
 
-    const doesChatExist = await this.repository
+    return await this.repository
       .createQueryBuilder('chat')
       .where('(chat.userOne = :userOneId AND chat.userTwo = :userTwoId)', {
         userOneId,
@@ -28,8 +30,6 @@ export class UserChatRepositoryAdapter implements UserChatRepositoryPort {
         userTwoId,
       })
       .getOne();
-
-    return !!doesChatExist;
   }
 
   async create(entity: UserChatEntity): Promise<string> {

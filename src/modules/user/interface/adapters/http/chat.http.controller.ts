@@ -24,7 +24,6 @@ import { CreateUserMessageRequest } from '@modules/user/interface/adapters/reque
 import { CreateUserMessageCommand } from '@modules/user/application/commands/create-user-message.command';
 import { FindUserChatByIdQuery } from '@modules/user/application/queries/queries/find-user-chat-by-id.query';
 import { UserChatResponse } from '@modules/user/interface/adapters/response/user-chat.response';
-import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
 import { FindDoesChatExistQuery } from '@modules/user/application/queries/queries/find-does-chat-exist.query';
 
 @UsePipes(ZodValidationPipe)
@@ -40,15 +39,25 @@ export class ChatHttpController {
 
   @Get(routesV1.chat.doesChatExist)
   async doesChatExist(
-    @Param('userOneId') userOneId: string,
-    @Param('userTwoId') userTwoId: string,
-  ): Promise<boolean> {
+    @Query('userOneId') userOneId: string, //Define non empty validators for these.
+    @Query('userTwoId') userTwoId: string,
+  ): Promise<IdResponse> {
     const query = new FindDoesChatExistQuery({
       userOneId: userOneId,
       userTwoId: userTwoId,
     });
 
-    return this.queryBus.execute(query);
+    const result: Result<AggregateID, ExceptionBase> =
+      await this.queryBus.execute(query);
+
+    return match(result, {
+      Ok: (id: string) => new IdResponse(id),
+      Err: (error: Error) => {
+        throw new NotFoundException(
+          `This chat has not yet been created.: ${error}`,
+        ); //make a custom error for this.
+      },
+    });
   }
 
   @ApiOperation({ summary: 'Create a chat' })
