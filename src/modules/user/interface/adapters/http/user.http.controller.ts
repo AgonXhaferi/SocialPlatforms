@@ -27,9 +27,9 @@ import { ExceptionBase } from '@libs/exceptions';
 import { FindPrimaryCultureUsersQuery } from '@modules/culture/application/queries/find-primary-culture-users.query'; //TODO: This is no bueno.
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
 import { UserResponseDto } from '@modules/user/interface/adapters/response/user.response.dto';
-import { FindUsersByIdsQuery } from '@modules/user/application/queries/queries/find-users-by-ids.query';
-import { FindUserByIdQuery } from '@modules/user/application/queries/queries/find-user-by-id.query';
-import { FindAreUsersFollowersQuery } from '@modules/user/application/queries/queries/find-are-users-followers.query';
+import { FindUsersByIdsQuery } from '@modules/user/application/query/queries/find-users-by-ids.query';
+import { FindUserByIdQuery } from '@modules/user/application/query/queries/find-user-by-id.query';
+import { FindAreUsersFollowersQuery } from '@modules/user/application/query/queries/find-are-users-followers.query';
 
 //Users WON'T be created via this controller, it's mainly an example.
 @UsePipes(ZodValidationPipe)

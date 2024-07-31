@@ -18,9 +18,9 @@ import { UserFollowingMapper } from '@modules/user/mapper/user-following.mapper'
 import { UserFollowingRepositoryAdapter } from '@modules/user/infrastructure/adapter/user-following.repository.adapter';
 import { CreateUserFollowingService } from '@modules/user/application/services/create-user-following.service';
 import { CreateUserFollowingCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-following.command-handler';
-import { FindUsersByIdsQueryHandler } from '@modules/user/application/queries/query-handlers/find-users-by-ids-query.handler';
-import { FindUserByIdQueryHandler } from '@modules/user/application/queries/query-handlers/find-user-by-id.query.handler';
-import { FindAreUsersFollowersQueryHandler } from '@modules/user/application/queries/query-handlers/find-are-users-followers.query.handler';
+import { FindUsersByIdsQueryHandler } from '@modules/user/application/query/query-handlers/find-users-by-ids-query.handler';
+import { FindUserByIdQueryHandler } from '@modules/user/application/query/query-handlers/find-user-by-id.query.handler';
+import { FindAreUsersFollowersQueryHandler } from '@modules/user/application/query/query-handlers/find-are-users-followers.query.handler';
 import { ChatGateway } from '@modules/user/interface/adapters/websocket-gateway/chat.gateway';
 import { UserMessagePersistenceEntity } from '@modules/user/database/entities/user-message.persistence.entity';
 import { UserChatPersistenceEntity } from '@modules/user/database/entities/user-chat.persistence.entity';
@@ -33,8 +33,8 @@ import { CreateUserMessageCommandHandler } from '@modules/user/application/comma
 import { CreateUserChatCommandHandler } from '@modules/user/application/commands/command-handlers/create-user-chat.command-handler';
 import { CreateUserMessageService } from '@modules/user/application/services/create-user-message.service';
 import { CreateUserChatService } from '@modules/user/application/services/create-user-chat.service';
-import { FindUserChatByIdQueryHandler } from '@modules/user/application/queries/query-handlers/find-user-chat-by-id.query.handler';
-import { FindDoesChatExistQueryHandler } from '@modules/user/application/queries/query-handlers/find-does-chat-exist.query.handler';
+import { FindUserChatByIdQueryHandler } from '@modules/user/application/query/query-handlers/find-user-chat-by-id.query.handler';
+import { FindDoesChatExistQueryHandler } from '@modules/user/application/query/query-handlers/find-does-chat-exist.query.handler';
 
 const httpControllers = [UserHttpController, ChatHttpController];
 

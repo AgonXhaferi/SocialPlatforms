@@ -2,7 +2,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
 import { Err, Ok, Result } from 'oxide.ts';
 import { ExceptionBase, NotFoundException } from '@libs/exceptions';
-import { FindUsersByIdsQuery } from '@modules/user/application/queries/queries/find-users-by-ids.query';
+import { FindUsersByIdsQuery } from '@modules/user/application/query/queries/find-users-by-ids.query';
 import { USER_REPOSITORY } from '@modules/user/user.di-tokens';
 import { UserRepositoryPort } from '@modules/user/application/ports/user.repository.port';
 import { UserResponseDto } from '@modules/user/interface/adapters/response/user.response.dto';

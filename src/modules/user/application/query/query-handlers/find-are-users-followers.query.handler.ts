@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { FindAreUsersFollowersQuery } from '@modules/user/application/queries/queries/find-are-users-followers.query';
+import { FindAreUsersFollowersQuery } from '@modules/user/application/query/queries/find-are-users-followers.query';
 import { Inject } from '@nestjs/common';
 import { USER_FOLLOWING_REPOSITORY } from '@modules/user/user.di-tokens';
 import { UserFollowingRepositoryPort } from '@modules/user/application/ports/user-following.repository.port';

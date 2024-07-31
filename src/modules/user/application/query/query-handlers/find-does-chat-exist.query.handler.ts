@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { FindDoesChatExistQuery } from '@modules/user/application/queries/queries/find-does-chat-exist.query';
+import { FindDoesChatExistQuery } from '@modules/user/application/query/queries/find-does-chat-exist.query';
 import { Inject } from '@nestjs/common';
 import { USER_CHAT_REPOSITORY } from '@modules/user/user.di-tokens';
 import { UserChatRepositoryPort } from '@modules/user/application/ports/user-chat.repository.port';

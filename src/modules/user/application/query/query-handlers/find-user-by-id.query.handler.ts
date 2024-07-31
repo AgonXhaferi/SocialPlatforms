@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { FindUserByIdQuery } from '@modules/user/application/queries/queries/find-user-by-id.query';
+import { FindUserByIdQuery } from '@modules/user/application/query/queries/find-user-by-id.query';
 import { Inject } from '@nestjs/common';
 import { USER_REPOSITORY } from '@modules/user/user.di-tokens';
 import { UserRepositoryPort } from '@modules/user/application/ports/user.repository.port';

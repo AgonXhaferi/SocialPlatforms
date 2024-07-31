@@ -1,12 +1,12 @@
 import { OrderBy, PaginatedQueryParams } from './repository.port';
 
 /**
- * Base class for regular queries
+ * Base class for regular query
  */
 export abstract class QueryBase {}
 
 /**
- * Base class for paginated queries
+ * Base class for paginated query
  */
 export abstract class PaginatedQueryBase extends QueryBase {
   limit: number;

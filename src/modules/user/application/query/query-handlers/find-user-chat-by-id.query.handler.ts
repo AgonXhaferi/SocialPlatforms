@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { FindUserChatByIdQuery } from '@modules/user/application/queries/queries/find-user-chat-by-id.query';
+import { FindUserChatByIdQuery } from '@modules/user/application/query/queries/find-user-chat-by-id.query';
 import { UserChatRepositoryPort } from '@modules/user/application/ports/user-chat.repository.port';
 import { USER_CHAT_REPOSITORY } from '@modules/user/user.di-tokens';
 import { Inject } from '@nestjs/common';

@@ -22,9 +22,9 @@ import { CreateUserChatCommand } from '@modules/user/application/commands/create
 import { ExceptionBase } from '@libs/exceptions';
 import { CreateUserMessageRequest } from '@modules/user/interface/adapters/request/create-user-message.request';
 import { CreateUserMessageCommand } from '@modules/user/application/commands/create-user-message.command';
-import { FindUserChatByIdQuery } from '@modules/user/application/queries/queries/find-user-chat-by-id.query';
+import { FindUserChatByIdQuery } from '@modules/user/application/query/queries/find-user-chat-by-id.query';
 import { UserChatResponse } from '@modules/user/interface/adapters/response/user-chat.response';
-import { FindDoesChatExistQuery } from '@modules/user/application/queries/queries/find-does-chat-exist.query';
+import { FindDoesChatExistQuery } from '@modules/user/application/query/queries/find-does-chat-exist.query';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
