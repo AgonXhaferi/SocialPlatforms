@@ -51,7 +51,6 @@ export class ChatInit1720719726000 implements MigrationInterface {
           {
             name: 'chat_id',
             type: 'uuid',
-            isUnique: true,
           },
           {
             name: 'sender_id',
