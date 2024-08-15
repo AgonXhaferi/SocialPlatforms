@@ -42,10 +42,10 @@ export class Command {
         'Command props should not be empty',
       );
     }
-    const ctx = RequestContextService.getContext();
+    const ctx = RequestContextService.getRequestId();
     this.id = props.id || crypto.randomUUID();
     this.metadata = {
-      correlationId: props?.metadata?.correlationId || ctx.requestId,
+      correlationId: props?.metadata?.correlationId || ctx,
       causationId: props?.metadata?.causationId,
       timestamp: props?.metadata?.timestamp || Date.now(),
       userId: props?.metadata?.userId,

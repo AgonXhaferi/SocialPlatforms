@@ -11,16 +11,29 @@ import { RequestContextService } from './AppRequestContext';
 @Injectable()
 export class ContextInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const request = context.switchToHttp().getRequest();
+    const contextType = context.getType();
 
-    /**
-     * Setting an ID in the global context for each request.
-     * This ID can be used as correlation id shown in logs
-     */
-    const requestId = request?.body?.requestId ?? nanoid(6);
+    if (contextType === 'http') {
+      const request = context.switchToHttp().getRequest();
 
-    RequestContextService.setRequestId(requestId);
+      /**
+       * Setting an ID in the global context for each request.
+       * This ID can be used as correlation id shown in logs
+       */
+      const requestId = request?.body?.requestId ?? nanoid(6);
 
+      RequestContextService.setRequestId(requestId);
+    }
+    if (contextType === 'ws') {
+      const client = context.switchToWs().getClient();
+      const data = context.switchToWs().getData();
+
+      const requestId = data?.requestId ?? nanoid(6);
+
+      RequestContextService.setRequestId(requestId);
+
+      client.requestId = requestId;
+    }
     return next.handle().pipe(
       tap(() => {
         // Perform cleaning if needed

@@ -6,23 +6,23 @@ import { DatabaseTransactionConnection } from 'slonik';
  */
 
 export class AppRequestContext extends RequestContext {
-  requestId: string;
+  requestId?: string;
   transactionConnection?: DatabaseTransactionConnection; // For global transactions
 }
 
 export class RequestContextService {
   static getContext(): AppRequestContext {
-    const ctx: AppRequestContext = RequestContext.currentContext.req;
+    const ctx: AppRequestContext = RequestContext.currentContext?.req;
     return ctx;
   }
 
   static setRequestId(id: string): void {
     const ctx = this.getContext();
-    ctx.requestId = id;
+    if (ctx) ctx.requestId = id;
   }
 
-  static getRequestId(): string {
-    return this.getContext().requestId;
+  static getRequestId(): string | undefined {
+    return this.getContext() ? this.getContext().requestId : undefined;
   }
 
   static getTransactionConnection(): DatabaseTransactionConnection | undefined {
