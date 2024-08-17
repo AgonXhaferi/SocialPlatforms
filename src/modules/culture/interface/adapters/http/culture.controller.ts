@@ -5,7 +5,6 @@ import {
   Get,
   HttpStatus,
   NotFoundException,
-  Param,
   Post,
   Query,
   UsePipes,
@@ -76,7 +75,7 @@ export class CultureController {
     return result.unwrap();
   }
 
-  @ApiOperation({ summary: 'Create a culture' })
+  @ApiOperation({ summary: 'Find if user is subscribed to culture.' })
   @ApiResponse({
     status: HttpStatus.OK,
     type: IdResponse,
