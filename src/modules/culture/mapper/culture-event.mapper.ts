@@ -39,14 +39,14 @@ export class CultureEventMapper
           longitude: record.location.longitude,
           latitude: record.location.latitude,
         }),
-        culture: record.cultureId,
+        culture: record.cultureName,
       },
     });
   }
 
   toResponse(entity: CultureEventsEntity): CultureEventResponse {
     return new CultureEventResponse({
-      id: entity.getProps().id,
+      id: entity.id,
       name: entity.getProps().name,
       description: entity.getProps().description,
       longitude: entity.getProps().location.longitude,

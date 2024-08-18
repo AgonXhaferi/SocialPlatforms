@@ -38,7 +38,7 @@ export class CultureEventsPersistenceEntity {
   @Column('varchar', {
     name: 'culture_id',
   })
-  cultureId: string;
+  cultureName: string;
 
   @Column({
     name: 'start_date',
@@ -66,7 +66,7 @@ export class CultureEventsPersistenceEntity {
     this.name = name;
     this.description = description;
     this.location = location;
-    this.cultureId = culture;
+    this.cultureName = culture;
     this.startDate = startDate;
     this.endDate = endDate;
   }

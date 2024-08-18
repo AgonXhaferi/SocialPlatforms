@@ -19,11 +19,15 @@ export class CultureArticleRepositoryAdapter
 
   async findNLatestArticles(
     numberOfArticles: number,
+    cultureName: string,
   ): Promise<CultureArticlesEntity[]> {
     const topArticlePersistenceEntities = await this.repository.find({
       take: numberOfArticles,
       order: {
         timeCreated: 'DESC',
+      },
+      where: {
+        culture: cultureName,
       },
     });
 

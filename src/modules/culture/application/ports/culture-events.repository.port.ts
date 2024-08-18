@@ -3,5 +3,8 @@ import { CultureEventsEntity } from '@modules/culture/domain/entities/culture-ev
 
 export interface CultureEventsRepositoryPort
   extends RepositoryPort<CultureEventsEntity, AggregateID> {
-  findNLatestEvents(numberOfEvents: number): Promise<CultureEventsEntity[]>;
+  findNLatestEvents(
+    numberOfEvents: number,
+    cultureName: string,
+  ): Promise<CultureEventsEntity[]>;
 }

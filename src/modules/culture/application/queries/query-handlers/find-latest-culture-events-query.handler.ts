@@ -20,6 +20,7 @@ export class FindLatestCultureEventsQueryHandler implements IQueryHandler {
     const topCultureArticles =
       await this.cultureEventsRepositoryPort.findNLatestEvents(
         findLatestCultureEventsQuery.numberOfEvents,
+        findLatestCultureEventsQuery.cultureName,
       );
 
     return topCultureArticles.map(this.cultureEventsMapper.toResponse);

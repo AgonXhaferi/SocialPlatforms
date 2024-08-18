@@ -32,11 +32,15 @@ export class CultureEventRepositoryAdapter
 
   async findNLatestEvents(
     numberOfEvents: number,
+    cultureName: string,
   ): Promise<CultureEventsEntity[]> {
     const topEventPersistenceEntities = await this.repository.find({
       take: numberOfEvents,
       order: {
         startDate: 'DESC',
+      },
+      where: {
+        cultureName: cultureName,
       },
     });
 

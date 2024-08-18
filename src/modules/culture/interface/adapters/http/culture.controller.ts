@@ -32,6 +32,9 @@ import { CreateCultureSubscriptionCommand } from '@modules/culture/application/c
 import { CreateCultureSubscriptionRequest } from '@modules/culture/interface/request/create-culture-subscription.request';
 import { FindIsUserSubscribedToCultureQuery } from '@modules/culture/application/queries/find-is-user-subscribed-to-culture.query';
 import { CultureSubscriptionError } from '@modules/culture/domain/error/culture-subscription.error';
+import { FindLatestCultureArticlesQuery } from '@modules/culture/application/queries/find-latest-culture-articles.query';
+import { CultureArticleResponse } from '@modules/culture/interface/response/culture-article.response';
+import { FindLatestCultureEventsQuery } from '@modules/culture/application/queries/find-latest-culture-events.query';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
@@ -73,6 +76,32 @@ export class CultureController {
     }
 
     return result.unwrap();
+  }
+
+  @Get(routesV1.culture.findLatestArticle)
+  async findLatestCultureEvents(
+    @Query('cultureName') cultureName: string,
+    @Query('numberOfArticles') numberOfArticles: number,
+  ) {
+    const query = new FindLatestCultureArticlesQuery({
+      cultureName,
+      numberOfArticles,
+    });
+
+    return await this.queryBus.execute(query);
+  }
+
+  @Get(routesV1.culture.findLatestEvents)
+  async findLatestCultureArticles(
+    @Query('cultureName') cultureName: string,
+    @Query('numberOfEvents') numberOfEvents: number,
+  ) {
+    const query = new FindLatestCultureEventsQuery({
+      cultureName,
+      numberOfEvents,
+    });
+
+    return await this.queryBus.execute(query);
   }
 
   @ApiOperation({ summary: 'Find if user is subscribed to culture.' })

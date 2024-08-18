@@ -32,5 +32,7 @@ export const routesV1 = {
     createArticle: '/article',
     subscribe: '/subscribe',
     isSubscribed: '/is-subscribed',
+    findLatestArticle: '/find-latest-articles',
+    findLatestEvents: '/find-latest-events',
   },
 } as const;
