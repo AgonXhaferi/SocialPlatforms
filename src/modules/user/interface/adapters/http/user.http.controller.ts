@@ -24,7 +24,7 @@ import { ZodValidationPipe } from 'nestjs-zod';
 import { CreateUserFollowingRequest } from '@modules/user/interface/adapters/request/create-user-following.request';
 import { CreateUserFollowingCommand } from '@modules/user/application/commands/create-user-following.command';
 import { ExceptionBase } from '@libs/exceptions';
-import { FindPrimaryCultureUsersQuery } from '@modules/culture/application/queries/find-primary-culture-users.query'; //TODO: This is no bueno.
+import { FindPrimaryCultureUsersQuery } from '@modules/culture/application/queries/culture/find-primary-culture-users.query'; //TODO: This is no bueno.
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
 import { UserResponseDto } from '@modules/user/interface/adapters/response/user.response.dto';
 import { FindUsersByIdsQuery } from '@modules/user/application/query/queries/find-users-by-ids.query';

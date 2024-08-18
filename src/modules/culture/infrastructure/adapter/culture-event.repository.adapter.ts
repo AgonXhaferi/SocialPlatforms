@@ -17,6 +17,23 @@ export class CultureEventRepositoryAdapter
     private readonly cultureEventsMapper: CultureEventMapper,
   ) {}
 
+  async findEventByName(
+    eventName: string,
+    cultureName: string,
+  ): Promise<CultureEventsEntity[]> {
+    const persistenceEntities = await this.repository.find({
+      where: {
+        cultureName,
+        name: eventName,
+      },
+      order: {
+        startDate: 'DESC',
+      },
+    });
+
+    return persistenceEntities.map(this.cultureEventsMapper.toDomain);
+  }
+
   async create(entity: CultureEventsEntity): Promise<string> {
     const persistenceEntity = this.cultureEventsMapper.toPersistence(entity);
 

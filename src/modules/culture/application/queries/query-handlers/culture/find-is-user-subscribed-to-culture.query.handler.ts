@@ -5,7 +5,7 @@ import { CultureSubscriptionsRepositoryPort } from '@modules/culture/application
 import { Err, Ok, Result } from 'oxide.ts';
 import { ExceptionBase, NotFoundException } from '@libs/exceptions';
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
-import { FindIsUserSubscribedToCultureQuery } from '@modules/culture/application/queries/find-is-user-subscribed-to-culture.query';
+import { FindIsUserSubscribedToCultureQuery } from '@modules/culture/application/queries/culture/find-is-user-subscribed-to-culture.query';
 
 @QueryHandler(FindIsUserSubscribedToCultureQuery)
 export class FindIsUserSubscribedToCultureQueryHandler

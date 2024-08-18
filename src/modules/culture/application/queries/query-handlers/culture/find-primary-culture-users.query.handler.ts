@@ -4,7 +4,7 @@ import { CULTURE_SUBSCRIPTIONS_REPOSITORY } from '@modules/culture/culture.di-to
 import { Err, Ok, Result } from 'oxide.ts';
 import { ExceptionBase, NotFoundException } from '@libs/exceptions';
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
-import { FindPrimaryCultureUsersQuery } from '@modules/culture/application/queries/find-primary-culture-users.query';
+import { FindPrimaryCultureUsersQuery } from '@modules/culture/application/queries/culture/find-primary-culture-users.query';
 import { CultureSubscriptionsRepositoryPort } from '@modules/culture/application/ports/culture-subscriptions.repository.port';
 import { CultureSubscriptionsMapper } from '@modules/culture/mapper/culture-subscriptions.mapper';
 

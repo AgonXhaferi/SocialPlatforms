@@ -5,6 +5,11 @@ export interface CultureArticlesRepositoryPort
   extends RepositoryPort<CultureArticlesEntity, AggregateID> {
   findNLatestArticles(
     numberOfArticles: number,
+    cultureName: string, //TODO: make a DTO for this to improve readibility and conciseness.
+  ): Promise<CultureArticlesEntity[]>;
+
+  findArticleByName(
+    articleName: string,
     cultureName: string,
   ): Promise<CultureArticlesEntity[]>;
 }

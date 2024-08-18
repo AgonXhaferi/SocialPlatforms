@@ -3,7 +3,7 @@ import { CultureArticlesRepositoryPort } from '@modules/culture/application/port
 import { Paginated, PaginatedQueryParams } from '@src/libs/ddd';
 import { CultureArticlesEntity } from '../../domain/entities/culture-articles.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CultureArticleMapper } from '@modules/culture/mapper/culture-article.mapper';
 import { CultureArticlesPersistenceEntity } from '@modules/culture/database/entities/culture-articles.persistence.entity';
 
@@ -16,6 +16,20 @@ export class CultureArticleRepositoryAdapter
     private readonly repository: Repository<CultureArticlesPersistenceEntity>,
     private readonly cultureArticleMapper: CultureArticleMapper,
   ) {}
+
+  async findArticleByName(
+    articleName: string,
+    cultureName: string,
+  ): Promise<CultureArticlesEntity[]> {
+    const articlePersistenceEntities = await this.repository.find({
+      where: {
+        culture: cultureName,
+        title: Like(`%${articleName}%`),
+      },
+    });
+
+    return articlePersistenceEntities.map(this.cultureArticleMapper.toDomain);
+  }
 
   async findNLatestArticles(
     numberOfArticles: number,

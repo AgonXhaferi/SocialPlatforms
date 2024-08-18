@@ -28,11 +28,13 @@ import { CreateCultureEventCommandHandler } from '@modules/culture/application/c
 import { CreateCultureArticlesService } from '@modules/culture/application/services/culture-articles/create-culture-articles.service';
 import { CreateCultureEventsService } from '@modules/culture/application/services/culture-events/create-culture-events.service';
 import { CultureArticleRepositoryAdapter } from '@modules/culture/infrastructure/adapter/culture-article.repository.adapter';
-import { FindCultureQueryHandler } from '@modules/culture/application/queries/query-handlers/find-culture.query.handler';
-import { FindPrimaryCultureUsersQueryHandler } from '@modules/culture/application/queries/query-handlers/find-primary-culture-users.query.handler';
-import { FindIsUserSubscribedToCultureQueryHandler } from '@modules/culture/application/queries/query-handlers/find-is-user-subscribed-to-culture.query.handler';
-import { FindLatestCultureArticlesQueryHandler } from '@modules/culture/application/queries/query-handlers/find-latest-culture-articles-query.handler';
-import { FindLatestCultureEventsQueryHandler } from '@modules/culture/application/queries/query-handlers/find-latest-culture-events-query.handler';
+import { FindCultureQueryHandler } from '@modules/culture/application/queries/query-handlers/culture/find-culture.query.handler';
+import { FindPrimaryCultureUsersQueryHandler } from '@modules/culture/application/queries/query-handlers/culture/find-primary-culture-users.query.handler';
+import { FindIsUserSubscribedToCultureQueryHandler } from '@modules/culture/application/queries/query-handlers/culture/find-is-user-subscribed-to-culture.query.handler';
+import { FindLatestCultureArticlesQueryHandler } from '@modules/culture/application/queries/query-handlers/culture-articles/find-latest-culture-articles-query.handler';
+import { FindLatestCultureEventsQueryHandler } from '@modules/culture/application/queries/query-handlers/culture-events/find-latest-culture-events-query.handler';
+import { FindCultureArticleByNameQueryHandler } from '@modules/culture/application/queries/query-handlers/culture-articles/find-culture-article-by-name.query.handler';
+import { FindCultureEventByNameQueryHandler } from '@modules/culture/application/queries/query-handlers/culture-events/find-culture-event-by-name.query.handler';
 
 const httpControllers = [CultureController];
 
@@ -49,6 +51,8 @@ const queryHandlers: Provider[] = [
   FindIsUserSubscribedToCultureQueryHandler,
   FindLatestCultureArticlesQueryHandler,
   FindLatestCultureEventsQueryHandler,
+  FindCultureArticleByNameQueryHandler,
+  FindCultureEventByNameQueryHandler,
 ];
 
 const services: Provider[] = [

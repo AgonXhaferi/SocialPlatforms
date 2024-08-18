@@ -7,4 +7,9 @@ export interface CultureEventsRepositoryPort
     numberOfEvents: number,
     cultureName: string,
   ): Promise<CultureEventsEntity[]>;
+
+  findEventByName(
+    eventName: string,
+    cultureName: string,
+  ): Promise<CultureEventsEntity[]>;
 }

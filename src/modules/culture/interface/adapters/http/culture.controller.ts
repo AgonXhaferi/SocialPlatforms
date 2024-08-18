@@ -25,16 +25,17 @@ import { CreateCultureEventRequest } from '@modules/culture/interface/request/cr
 import { CreateCultureArticleCommand } from '@modules/culture/application/commands/create-culture-article.command';
 import { ExceptionBase } from '@libs/exceptions';
 import { CreateCultureEventCommand } from '@modules/culture/application/commands/create-culture-event.command';
-import { FindCultureQuery } from '@modules/culture/application/queries/find-culture.query';
+import { FindCultureQuery } from '@modules/culture/application/queries/culture/find-culture.query';
 import { CultureResponse } from '@modules/culture/interface/response/culture.response';
 import { CultureDoesntExistsError } from '@modules/culture/domain/error/culture-doesnt-exists.error';
 import { CreateCultureSubscriptionCommand } from '@modules/culture/application/commands/create-culture-subscription.command';
 import { CreateCultureSubscriptionRequest } from '@modules/culture/interface/request/create-culture-subscription.request';
-import { FindIsUserSubscribedToCultureQuery } from '@modules/culture/application/queries/find-is-user-subscribed-to-culture.query';
+import { FindIsUserSubscribedToCultureQuery } from '@modules/culture/application/queries/culture/find-is-user-subscribed-to-culture.query';
 import { CultureSubscriptionError } from '@modules/culture/domain/error/culture-subscription.error';
-import { FindLatestCultureArticlesQuery } from '@modules/culture/application/queries/find-latest-culture-articles.query';
+import { FindLatestCultureArticlesQuery } from '@modules/culture/application/queries/culture-articles/find-latest-culture-articles.query';
 import { CultureArticleResponse } from '@modules/culture/interface/response/culture-article.response';
-import { FindLatestCultureEventsQuery } from '@modules/culture/application/queries/find-latest-culture-events.query';
+import { FindLatestCultureEventsQuery } from '@modules/culture/application/queries/culture-events/find-latest-culture-events.query';
+import { CultureEventResponse } from '@modules/culture/interface/response/culture-event.response';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
@@ -82,7 +83,7 @@ export class CultureController {
   async findLatestCultureArticles(
     @Query('cultureName') cultureName: string,
     @Query('numberOfArticles') numberOfArticles: number,
-  ) {
+  ): Promise<CultureArticleResponse[]> {
     const query = new FindLatestCultureArticlesQuery({
       cultureName,
       numberOfArticles,
@@ -95,7 +96,7 @@ export class CultureController {
   async findLatestCultureEvents(
     @Query('cultureName') cultureName: string,
     @Query('numberOfEvents') numberOfEvents: number,
-  ) {
+  ): Promise<CultureEventResponse> {
     const query = new FindLatestCultureEventsQuery({
       cultureName,
       numberOfEvents,

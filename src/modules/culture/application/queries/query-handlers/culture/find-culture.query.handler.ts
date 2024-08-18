@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { FindCultureQuery } from '@modules/culture/application/queries/find-culture.query';
+import { FindCultureQuery } from '@modules/culture/application/queries/culture/find-culture.query';
 import { Inject } from '@nestjs/common';
 import { CULTURE_REPOSITORY } from '@modules/culture/culture.di-tokens';
 import { CultureRepositoryPort } from '@modules/culture/application/ports/culture.repository.port';
