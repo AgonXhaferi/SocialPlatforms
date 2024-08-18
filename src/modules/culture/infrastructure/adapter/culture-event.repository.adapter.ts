@@ -3,7 +3,6 @@ import { CultureEventsRepositoryPort } from '@modules/culture/application/ports/
 import { Paginated, PaginatedQueryParams } from '@src/libs/ddd';
 import { CultureEventsEntity } from '../../domain/entities/culture-events.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CulturePersistenceEntity } from '@modules/culture/database/entities/culture.persistence.entity';
 import { Repository } from 'typeorm';
 import { CultureEventsPersistenceEntity } from '@modules/culture/database/entities/culture-events.persistence.entity';
 import { CultureEventMapper } from '@modules/culture/mapper/culture-event.mapper';
@@ -29,6 +28,19 @@ export class CultureEventRepositoryAdapter
     } catch (error) {
       throw error; //TODO, obviously do better error handling, at least define some logging for this.
     }
+  }
+
+  async findNLatestEvents(
+    numberOfEvents: number,
+  ): Promise<CultureEventsEntity[]> {
+    const topEventPersistenceEntities = await this.repository.find({
+      take: numberOfEvents,
+      order: {
+        startDate: 'DESC',
+      },
+    });
+
+    return topEventPersistenceEntities.map(this.cultureEventsMapper.toDomain);
   }
 
   createMany(entity: CultureEventsEntity[]): Promise<void> {

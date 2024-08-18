@@ -4,6 +4,7 @@ import { CultureEventsEntity } from '@modules/culture/domain/entities/culture-ev
 import { CultureEventsPersistenceEntity } from '@modules/culture/database/entities/culture-events.persistence.entity';
 import { GpsLocationValueObject } from '@modules/culture/domain/value-object/gps-location.value-object';
 import { CultureEventDurationValueObject } from '@modules/culture/domain/value-object/culture-event-duration.value-object';
+import { CultureEventResponse } from '@modules/culture/interface/response/culture-event.response';
 
 @Injectable()
 export class CultureEventMapper
@@ -43,7 +44,15 @@ export class CultureEventMapper
     });
   }
 
-  toResponse(entity: CultureEventsEntity) {
-    throw new Error('Method not implemented.');
+  toResponse(entity: CultureEventsEntity): CultureEventResponse {
+    return new CultureEventResponse({
+      id: entity.getProps().id,
+      name: entity.getProps().name,
+      description: entity.getProps().description,
+      longitude: entity.getProps().location.longitude,
+      latitude: entity.getProps().location.latitude,
+      endDate: entity.getProps().createdAt,
+      startDate: entity.getProps().updatedAt,
+    });
   }
 }

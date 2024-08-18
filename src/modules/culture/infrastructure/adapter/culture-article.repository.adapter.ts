@@ -17,6 +17,21 @@ export class CultureArticleRepositoryAdapter
     private readonly cultureArticleMapper: CultureArticleMapper,
   ) {}
 
+  async findNLatestArticles(
+    numberOfArticles: number,
+  ): Promise<CultureArticlesEntity[]> {
+    const topArticlePersistenceEntities = await this.repository.find({
+      take: numberOfArticles,
+      order: {
+        timeCreated: 'DESC',
+      },
+    });
+
+    return topArticlePersistenceEntities.map(
+      this.cultureArticleMapper.toDomain,
+    );
+  }
+
   async create(entity: CultureArticlesEntity): Promise<string> {
     const persistenceEntity = this.cultureArticleMapper.toPersistence(entity);
 
