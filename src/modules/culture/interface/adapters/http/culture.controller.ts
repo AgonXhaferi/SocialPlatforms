@@ -79,7 +79,7 @@ export class CultureController {
   }
 
   @Get(routesV1.culture.findLatestArticle)
-  async findLatestCultureEvents(
+  async findLatestCultureArticles(
     @Query('cultureName') cultureName: string,
     @Query('numberOfArticles') numberOfArticles: number,
   ) {
@@ -92,7 +92,7 @@ export class CultureController {
   }
 
   @Get(routesV1.culture.findLatestEvents)
-  async findLatestCultureArticles(
+  async findLatestCultureEvents(
     @Query('cultureName') cultureName: string,
     @Query('numberOfEvents') numberOfEvents: number,
   ) {
