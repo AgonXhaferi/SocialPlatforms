@@ -36,6 +36,8 @@ import { FindLatestCultureArticlesQuery } from '@modules/culture/application/que
 import { CultureArticleResponse } from '@modules/culture/interface/response/culture-article.response';
 import { FindLatestCultureEventsQuery } from '@modules/culture/application/queries/culture-events/find-latest-culture-events.query';
 import { CultureEventResponse } from '@modules/culture/interface/response/culture-event.response';
+import { FindCultureArticleByNameQuery } from '@modules/culture/application/queries/culture-articles/find-culture-article-by-name.query';
+import { FindCultureEventByNameQuery } from '@modules/culture/application/queries/culture-events/find-culture-event-by-name.query';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
@@ -100,6 +102,32 @@ export class CultureController {
     const query = new FindLatestCultureEventsQuery({
       cultureName,
       numberOfEvents,
+    });
+
+    return await this.queryBus.execute(query);
+  }
+
+  @Get(routesV1.culture.findArticleByTitle)
+  async findArticleByTitle(
+    @Query('cultureName') cultureName: string,
+    @Query('title') title: string,
+  ): Promise<CultureEventResponse[]> {
+    const query = new FindCultureArticleByNameQuery({
+      cultureName,
+      articleName: title,
+    });
+
+    return await this.queryBus.execute(query);
+  }
+
+  @Get(routesV1.culture.findEventByName)
+  async findEventByName(
+    @Query('cultureName') cultureName: string,
+    @Query('eventName') eventName: string,
+  ): Promise<CultureEventResponse[]> {
+    const query = new FindCultureEventByNameQuery({
+      cultureName,
+      eventName,
     });
 
     return await this.queryBus.execute(query);

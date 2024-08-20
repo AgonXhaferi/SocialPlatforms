@@ -3,7 +3,7 @@ import { CultureEventsRepositoryPort } from '@modules/culture/application/ports/
 import { Paginated, PaginatedQueryParams } from '@src/libs/ddd';
 import { CultureEventsEntity } from '../../domain/entities/culture-events.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CultureEventsPersistenceEntity } from '@modules/culture/database/entities/culture-events.persistence.entity';
 import { CultureEventMapper } from '@modules/culture/mapper/culture-event.mapper';
 
@@ -24,7 +24,7 @@ export class CultureEventRepositoryAdapter
     const persistenceEntities = await this.repository.find({
       where: {
         cultureName,
-        name: eventName,
+        name: Like(`%${eventName}%`),
       },
       order: {
         startDate: 'DESC',
