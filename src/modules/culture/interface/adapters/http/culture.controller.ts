@@ -38,6 +38,7 @@ import { FindLatestCultureEventsQuery } from '@modules/culture/application/queri
 import { CultureEventResponse } from '@modules/culture/interface/response/culture-event.response';
 import { FindCultureArticleByNameQuery } from '@modules/culture/application/queries/culture-articles/find-culture-article-by-name.query';
 import { FindCultureEventByNameQuery } from '@modules/culture/application/queries/culture-events/find-culture-event-by-name.query';
+import { GetAllCulturesQuery } from '@modules/culture/application/queries/culture/get-all-cultures.query';
 
 @UsePipes(ZodValidationPipe)
 @Controller({
@@ -50,7 +51,33 @@ export class CultureController {
     private readonly queryBus: QueryBus,
   ) {}
 
-  @ApiOperation({ summary: 'Create a culture' })
+  @ApiOperation({ summary: 'Get all cultures' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: IdResponse,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    type: ApiErrorResponse,
+  })
+  @Get()
+  async getAllCultures() {
+    const query = new GetAllCulturesQuery();
+
+    const result: Result<CultureResponse[], Error> =
+      await this.queryBus.execute(query);
+
+    if (
+      result.isErr() &&
+      result.unwrapErr() instanceof CultureDoesntExistsError
+    ) {
+      throw new NotFoundException();
+    }
+
+    return result.unwrap();
+  }
+
+  @ApiOperation({ summary: 'Get a culture by its name' })
   @ApiResponse({
     status: HttpStatus.OK,
     type: IdResponse,

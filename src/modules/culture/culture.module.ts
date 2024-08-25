@@ -35,6 +35,7 @@ import { FindLatestCultureArticlesQueryHandler } from '@modules/culture/applicat
 import { FindLatestCultureEventsQueryHandler } from '@modules/culture/application/queries/query-handlers/culture-events/find-latest-culture-events-query.handler';
 import { FindCultureArticleByNameQueryHandler } from '@modules/culture/application/queries/query-handlers/culture-articles/find-culture-article-by-name.query.handler';
 import { FindCultureEventByNameQueryHandler } from '@modules/culture/application/queries/query-handlers/culture-events/find-culture-event-by-name.query.handler';
+import { GetAllCulturesQueryHandler } from '@modules/culture/application/queries/query-handlers/culture/get-all-cultures.query.handler';
 
 const httpControllers = [CultureController];
 
@@ -48,6 +49,7 @@ const commandHandlers: Provider[] = [
 const queryHandlers: Provider[] = [
   FindCultureQueryHandler,
   FindPrimaryCultureUsersQueryHandler,
+  GetAllCulturesQueryHandler,
   FindIsUserSubscribedToCultureQueryHandler,
   FindLatestCultureArticlesQueryHandler,
   FindLatestCultureEventsQueryHandler,
