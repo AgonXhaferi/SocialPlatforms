@@ -1,7 +1,6 @@
 import { UserMessageRepositoryPort } from '@modules/user/application/ports/user-message.repository.port';
 import { UserMessagePersistenceEntity } from '@modules/user/database/entities/user-message.persistence.entity';
 import { AggregateID, Paginated, PaginatedQueryParams } from '@libs/ddd';
-import { undefined } from 'zod';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserMessageMapper } from '@modules/user/mapper/user-message.mapper';

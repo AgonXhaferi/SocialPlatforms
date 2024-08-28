@@ -91,7 +91,7 @@ export class CultureController {
     status: HttpStatus.BAD_REQUEST,
     type: ApiErrorResponse,
   })
-  @Get()
+  @Get(routesV1.culture.name)
   async findCulturesById(@Query('cultureName') cultureName: string) {
     const query = new FindCultureQuery({ cultureName });
 

@@ -91,7 +91,7 @@ export class ChatHttpController {
 
   @Get(routesV1.chat.findChat)
   async findChatById(
-    @Query('chatId') chatId: string,
+    @Param('chatId') chatId: string,
   ): Promise<UserChatResponse> {
     const query = new FindUserChatByIdQuery({
       chatId,

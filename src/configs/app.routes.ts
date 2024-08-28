@@ -28,6 +28,7 @@ export const routesV1 = {
   culture: {
     root: cultureRoot,
     create: '',
+    name: '/name',
     createEvent: '/event',
     createArticle: '/article',
     subscribe: '/subscribe',
